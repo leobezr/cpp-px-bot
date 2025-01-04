@@ -73,11 +73,13 @@ private:
 	Camera __camera;
 	Player __player;
 
-	atomic_flag scene_updated = ATOMIC_FLAG_INIT;
+	// TODO: See if doesn't break the code
+	//atomic_flag scene_updated = ATOMIC_FLAG_INIT;
 	thread __update_health_thread, __heal_thread;
 	mutex scene_mutex;
 	Rect __cached_hp_bar_ROI, __cached_mp_bar_ROI;
 	condition_variable scene_cv;
+
 	bool __stop_threads = FALSE, scene_ready = FALSE;
 	int __heal_on_health_percent, __heal_on_mana_percent;
 	int __current_hp = 100, __current_mp = 100;

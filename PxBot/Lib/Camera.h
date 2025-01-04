@@ -33,13 +33,19 @@ public:
         return hwnd;
     }
 
-	void save_image(Mat image)
+	void save_image(Mat image, string directory, string auto_filename = "")
 	{
         string filename;
-		string directory = "Resources/Screenshots/";
 
-        cout << "Enter creature name: ";
-        getline(cin, filename);
+        if (auto_filename.empty())
+        {
+            cout << "Enter creature name: ";
+            getline(cin, filename);
+        } 
+        else
+        {
+            filename = auto_filename;
+        }
 
         string path = directory + filename + ".jpg";
 
@@ -94,6 +100,10 @@ public:
 
         if (max_val < threshold)
         {
+            if (debug)
+            {
+                cout << "Didn't find threshold with: " << max_val << endl;
+            }
             if (mandatory)
             {
                 cerr << "Couldn't find the needle." << endl;
@@ -105,7 +115,7 @@ public:
         {
             if (debug)
             {
-                cout << "Percentage threshold: " << max_val << endl;
+                cout << "Found threshold with: " << max_val << endl;
             }
         }
         return max_loc;

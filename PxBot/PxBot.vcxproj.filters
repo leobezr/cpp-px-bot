@@ -45,6 +45,9 @@
     <ClCompile Include="Helpers\ProfileLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Helpers\WaitDelay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\Movement.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Helpers\ProfileLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\WaitDelay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -120,6 +126,21 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Resources\Screenshots\pig.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\map-buttons.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Waypoints\bug-carlin\start_0.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Waypoints\bug-carlin\start_1.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Waypoints\bug-carlin\start_2.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Waypoints\bug-carlin\start_3.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -30,8 +30,14 @@ struct Target
 struct Waypoint
 {
 	string method;
-	string target;
-	int node;
+	int node_size;
+};
+
+struct WaypointCategory
+{
+	vector<Waypoint> start;
+	vector<Waypoint> hunt;
+	vector<Waypoint> refil;
 };
 
 struct Profile
@@ -39,7 +45,7 @@ struct Profile
 	string name;
 	Healing healing;
 	vector<Target> target;
-	vector<Waypoint> waypoint;
+	WaypointCategory waypoint_category;
 };
 
 inline void from_json(const nlohmann::json& j, HealingRule& healing_rule)
@@ -66,8 +72,14 @@ inline void from_json(const nlohmann::json& j, Target& target)
 inline void from_json(const nlohmann::json& j, Waypoint& waypoint)
 {
 	j.at("method").get_to(waypoint.method);
-	j.at("target").get_to(waypoint.target);
-	j.at("node").get_to(waypoint.node);
+	j.at("node_size").get_to(waypoint.node_size);
+}
+
+inline void from_json(const nlohmann::json& j, WaypointCategory& waypoint_category)
+{
+	j.at("start").get_to(waypoint_category.start);
+	j.at("hunt").get_to(waypoint_category.hunt);
+	j.at("refil").get_to(waypoint_category.refil);
 }
 
 inline void from_json(const nlohmann::json& j, Profile& profile)
@@ -75,5 +87,5 @@ inline void from_json(const nlohmann::json& j, Profile& profile)
 	j.at("name").get_to(profile.name);
 	j.at("healing").get_to(profile.healing);
 	j.at("targets").get_to(profile.target);
-	j.at("waypoint").get_to(profile.waypoint);
+	j.at("waypoint_category").get_to(profile.waypoint_category);
 }

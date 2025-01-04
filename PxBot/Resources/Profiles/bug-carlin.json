@@ -1,5 +1,5 @@
 {
-    "name": "Bugs Carlin",
+    "name": "bug-carlin",
     "healing": {
         "low_health": {
             "max_health": 80,
@@ -26,26 +26,52 @@
             "priority": 10
         }
     ],
-    "waypoint": [
-        {
-            "node": 0,
-            "method": "click",
-            "target": "Resources/Cavebot/1.jpg"
-        },
-        {
-            "node": 1,
-            "method": "move:n",
-            "target": ""
-        },
-        {
-            "node": 2,
-            "method": "move:se",
-            "target": ""
-        },
-        {
-            "node": 3,
-            "method": "use:rope:n",
-            "target": ""
-        }
-    ]
+    "waypoint_category": {
+        "start": [
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            }
+        ],
+        "hunt": [
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            }
+        ],
+        "refil": [
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            }
+        ]
+    }
 }

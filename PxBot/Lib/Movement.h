@@ -57,6 +57,21 @@ public:
 		SetCursorPos(position.x, position.y);
 	}
 
+	void scroll(int direction, int amount)
+	{
+		INPUT input = { 0 };
+		input.type = INPUT_MOUSE;
+		input.mi.dwFlags = MOUSEEVENTF_WHEEL;
+		input.mi.mouseData = direction * amount;
+
+		int min_delay = 41;
+		int humanizer = rand() % 100;
+		int delay = humanizer >= min_delay ? humanizer : min_delay;
+
+		SendInput(1, &input, sizeof(INPUT));
+		Sleep(delay);
+	}
+
 	void click_mouse(Rect position)
 	{
 		this->__focus_window(this->__get_window());
@@ -96,8 +111,6 @@ private:
 
 	void __focus_window(HWND hwnd)
 	{
-		cout << "Forced focused Tibia window" << endl;
-
 		if (IsIconic(hwnd))
 		{
 			ShowWindow(hwnd, SW_RESTORE);

@@ -142,6 +142,7 @@
     <ClCompile Include="Lib\Player.cpp" />
     <ClCompile Include="Helpers\Toolbar.cpp" />
     <ClCompile Include="Types\Profile.cpp" />
+    <ClCompile Include="Helpers\WaitDelay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Helpers\ProfileLoader.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Lib\Player.h" />
     <ClInclude Include="Helpers\Toolbar.h" />
     <ClInclude Include="Types\Profile.h" />
+    <ClInclude Include="Helpers\WaitDelay.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -167,6 +169,7 @@
     <Image Include="Resources\hp.png" />
     <Image Include="Resources\hsv_mana.png" />
     <Image Include="Resources\mana.png" />
+    <Image Include="Resources\map-buttons.png" />
     <Image Include="Resources\Screenshots\bug.jpg" />
     <Image Include="Resources\Screenshots\cat.jpg" />
     <Image Include="Resources\Screenshots\chicken.jpg" />
@@ -175,6 +178,10 @@
     <Image Include="Resources\tool-full-life.jpg" />
     <Image Include="Resources\tool-half-life.jpg" />
     <Image Include="Resources\tool-low-life.jpg" />
+    <Image Include="Resources\Waypoints\bug-carlin\start_0.jpg" />
+    <Image Include="Resources\Waypoints\bug-carlin\start_1.jpg" />
+    <Image Include="Resources\Waypoints\bug-carlin\start_2.jpg" />
+    <Image Include="Resources\Waypoints\bug-carlin\start_3.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
