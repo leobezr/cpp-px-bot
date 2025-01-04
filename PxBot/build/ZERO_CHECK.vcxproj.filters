@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Leo\source\repos\PxBot\PxBot\build\CMakeFiles\42b1caf520175277aee73ea085e91fb5\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8E5B9192-D298-33E6-9AC7-7E28EA7E36FA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
