@@ -149,9 +149,6 @@ private:
 				current_mp = __current_mp;
 			}
 
-			cout << "HP:" << current_hp << endl;
-			cout << "Mana:" << current_mp << endl;
-
 			/*
 			 * Checking health conditions */
 			if (current_hp >= low_hp_rule.min_health && current_hp < low_hp_rule.max_health)
