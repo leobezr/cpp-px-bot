@@ -1,0 +1,81 @@
+{
+    "name": "bonelord-paladin-lb",
+    "healing": {
+        "low_health": {
+            "max_health": 39,
+            "min_health": 0,
+            "max_mana": 100,
+            "min_mana": 0
+        },
+        "high_health": {
+            "max_health": 85,
+            "min_health": 40,
+            "max_mana": 100,
+            "min_mana": 0
+        },
+        "mana": {
+            "max_health": 90,
+            "min_health": 0,
+            "min_mana": 0,
+            "max_mana": 35
+        }
+    },
+    "targets": [
+        {
+            "name": "bonelord",
+            "priority": 10
+        },
+        {
+            "name": "gazer",
+            "priority": 8
+        }
+    ],
+    "waypoint_category": {
+        "start": [
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            }
+        ],
+        "hunt": [
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            }
+        ],
+        "refil": [
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            }
+        ]
+    }
+}

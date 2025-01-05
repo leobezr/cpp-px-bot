@@ -131,8 +131,6 @@ private:
 
 			SendMessage(hwnd, WM_KEYDOWN, virtual_key_code, 0);
 			SendMessage(hwnd, WM_KEYUP, virtual_key_code, use_delay);
-
-			cout << "++ Key Pressed, delay used: " << use_delay << "ms" << endl;
 		}
 		else
 		{

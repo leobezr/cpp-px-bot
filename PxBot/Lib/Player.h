@@ -3,12 +3,13 @@
 #include <iostream>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <mutex>
 #include "./Camera.h";
 #include "./Health.h";
 #include "./Cavebot.h";
 #include "./Targeting.h";
 #include "../Helpers/Observer.h"
-#include <mutex>
+#include "./DeveloperTool.h"
 
 using namespace std;
 using namespace cv;
@@ -32,6 +33,18 @@ public:
 			player_setup.healing_enabled 
 		});
         add_observer(health);
+
+		Targeting* targeting = new Targeting({
+			player_setup.targeting_enabled,
+			player_setup.profile.target
+		});
+		add_observer(targeting);
+
+		DeveloperTool* dev_tool = new DeveloperTool({
+			player_setup.developer_mode_enabled,
+			player_setup.profile.name
+		});
+		add_observer(dev_tool);
 
 		__start_bot_main_thread();
     }
@@ -92,7 +105,6 @@ private:
 			{
 				break;
 			}
-
 			update_scene();
 		}
 	}

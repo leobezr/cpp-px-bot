@@ -132,6 +132,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Lib\DeveloperTool.cpp" />
     <ClCompile Include="Helpers\ProfileLoader.cpp" />
     <ClCompile Include="Lib\Cavebot.cpp" />
     <ClCompile Include="Constants\Hotkeys.h" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Helpers\WaitDelay.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Lib\DeveloperTool.h" />
     <ClInclude Include="Helpers\ProfileLoader.h" />
     <ClInclude Include="Lib\Cavebot.h" />
     <ClInclude Include="Lib\Health.h" />
@@ -161,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="Resources\Profiles\bonelord-paladin-lb.json" />
     <None Include="Resources\Profiles\bug-carlin.json" />
   </ItemGroup>
   <ItemGroup>

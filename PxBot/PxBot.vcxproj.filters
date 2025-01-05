@@ -54,6 +54,9 @@
     <ClCompile Include="Helpers\Observer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Lib\DeveloperTool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lib\Movement.h">
@@ -89,10 +92,14 @@
     <ClInclude Include="Helpers\Observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Lib\DeveloperTool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Profiles\bug-carlin.json" />
     <None Include=".gitignore" />
+    <None Include="Resources\Profiles\bonelord-paladin-lb.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

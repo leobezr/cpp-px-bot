@@ -4,7 +4,6 @@
 #include "opencv2/imgproc.hpp"
 #include <condition_variable>
 #include <thread>
-#include <atomic>
 #include <mutex>
 #include <chrono>
 #include <ctime>
@@ -16,6 +15,14 @@
 using namespace std;
 using namespace chrono;
 using namespace cv;
+
+constexpr int hp_bar_ROI_offset_x = 13;
+constexpr int hp_bar_width = 94;
+constexpr int hp_bar_height = 12;
+
+constexpr int mp_bar_ROI_offset_x = 13;
+constexpr int mp_bar_width = 95;
+constexpr int mp_bar_height = 12;
 
 class Health : public Observer
 {
@@ -46,7 +53,8 @@ public:
 			Rect roi_area = Rect(screen_size.width - tibia_container.width, 0, tibia_container.width, tibia_container.height);
 			Mat cropped_scene = scene(roi_area);
 
-			__scene = cropped_scene;
+			__scene = cropped_scene.clone();
+			cropped_scene.release();
 			cvtColor(__scene, __scene, cv::COLOR_BGRA2BGR);
 
 			scene_ready = true;
@@ -59,8 +67,11 @@ public:
 	*/
 	void start_threads()
 	{
-		__update_health_thread = thread(&Health::__update_health_percentage, this);
-		__heal_thread = thread(&Health::__heal, this);
+		if (__enabled)
+		{
+			__update_health_thread = thread(&Health::__update_health_percentage, this);
+			__heal_thread = thread(&Health::__heal, this);
+		}
 	}
 	void stop_threads()
 	{
@@ -73,10 +84,10 @@ private:
 	/* Profile */
 	Healing __healing_profile;
 	int __current_hp = 100, __current_mp = 100;
-	bool __enabled = FALSE;
+	bool __enabled = false;
 
-	/* Scene related */
-	cv::Mat __scene;
+	/* Scene related + ROI's */
+	Mat __scene;
 	Rect __cached_hp_bar_ROI, __cached_mp_bar_ROI;
 
 	/* Utils */
@@ -87,7 +98,8 @@ private:
 	thread __update_health_thread, __heal_thread;
 	mutex mtx;
 	condition_variable scene_cv;
-	bool __stop_threads = FALSE, scene_ready = FALSE;
+	bool __stop_threads = false, 
+		scene_ready = false;
 
 	/* Prompt management */
 	int __prompt_hp_counter = 0;
@@ -123,9 +135,9 @@ private:
 	void __heal()
 	{
 		if (__enabled) 
-			cout << "Healing is: ENABLED" << endl;
+			cout << "<!-	Healing is: ENABLED		->" << endl;
 		else
-			cout << "Healing is: DISABLED" << endl;
+			cout << "<!-	Healing is: DISABLED	->" << endl;
 
 		/* HP and Mana values,
 		* Protected by mutex */
@@ -154,12 +166,10 @@ private:
 			if (current_hp >= low_hp_rule.min_health && current_hp < low_hp_rule.max_health)
 			{
 				__movement.press(key_for_low_hp);
-				cout << "++ Healed HP, at percent: " << current_hp << "%" << endl;
 			}
 			else if (current_hp >= high_hp_rule.min_health && current_hp < high_hp_rule.max_health)
 			{
 				__movement.press(key_for_high_hp);
-				cout << "++ Healed HP, at percent: " << current_hp << "%" << endl;
 			}
 
 			/*
@@ -167,7 +177,6 @@ private:
 			if (current_mp >= mana_rule.min_mana && current_mp < mana_rule.max_mana)
 			{
 				__movement.press(key_for_mana);
-				cout << "++ Healed Mana, at percent: " << current_mp << "%" << endl;
 			}
 
 			/* Thread management */
@@ -183,19 +192,35 @@ private:
 	* Looks for heart icon of hp */
 	Point __find_heart_icon()
 	{
-		BOOL mandatory = FALSE;
-		string path_to_heart = "Resources/hp.png";
-		cv::Mat heart = cv::imread(path_to_heart, cv::IMREAD_UNCHANGED);
+		bool mandatory = FALSE;
+		Mat needle = cv::imread("Resources/hp.png", cv::IMREAD_UNCHANGED);
+		double threshold = 0.8;
 
-		return this->__camera.find_needle(this->__scene, heart, 0.8, mandatory);
+		Point heart_position = this->__camera.find_needle(
+			this->__scene, 
+			needle, 
+			threshold, 
+			mandatory
+		);
+
+		needle.release();
+		return heart_position;
 	}
 	Point __find_mana_icon()
 	{
 		BOOL mandatory = FALSE;
-		string path_to_heart = "Resources/mana.png";
-		cv::Mat heart = cv::imread(path_to_heart, cv::IMREAD_UNCHANGED);
+		Mat needle = cv::imread("Resources/mana.png", cv::IMREAD_UNCHANGED);
+		double threshold = 0.8;
 
-		return this->__camera.find_needle(this->__scene, heart, 0.8, mandatory);
+		Point mana_position = this->__camera.find_needle(
+			this->__scene, 
+			needle, 
+			threshold, 
+			mandatory
+		);
+		
+		needle.release();
+		return mana_position;
 	}
 
 	/*
@@ -211,8 +236,7 @@ private:
 		else
 		{
 			cv::Point heart = this->__find_heart_icon();
-			int hp_bar_x = heart.x + 13, hp_bar_y = heart.y;
-			int hp_bar_width = 94, hp_bar_height = 12;
+			int hp_bar_x = heart.x + hp_bar_ROI_offset_x, hp_bar_y = heart.y;
 
 			this->__cached_hp_bar_ROI = (Rect(
 				hp_bar_x, hp_bar_y,
@@ -232,8 +256,7 @@ private:
 		{
 			cv::Point mana_icon = this->__find_mana_icon();
 
-			int mp_bar_x = mana_icon.x + 13, mp_bar_y = mana_icon.y;
-			int mp_bar_width = 95, mp_bar_height = 12;
+			int mp_bar_x = mana_icon.x + mp_bar_ROI_offset_x, mp_bar_y = mana_icon.y;
 
 			this->__cached_mp_bar_ROI = (Rect(
 				mp_bar_x, mp_bar_y,
@@ -249,42 +272,46 @@ private:
 	*/
 
 	int __calculate_hp_bar_percentage(const cv::Mat& img) {
-		int max_bar_size = 90;
+		const int max_bar_size = 90;
 
 		Mat mask;
-		Scalar lower(80, 79, 216), upper(115, 115, 249);
+		const Scalar lower(80, 79, 216), upper(115, 115, 249);
 		inRange(img, lower, upper, mask);
 		
-		int non_zero_count = cv::countNonZero(mask);
-		if (non_zero_count == 0)
+		if (countNonZero(mask) == 0)
 		{
+			mask.release();
 			return 0;
 		}
 		
-		Rect bounding_box = cv::boundingRect(mask);
-		int hp_bar_width = bounding_box.width;
+		const Rect bounding_box = boundingRect(mask);
+		const int hp_bar_width = bounding_box.width;
+		const int hp_percentage = static_cast<double>(hp_bar_width) / max_bar_size * 100.0;
 
-		int hp_percentage = static_cast<double>(hp_bar_width) / max_bar_size * 100.0;
+		mask.release();
+
 		return hp_percentage;
 	}
 
 	int __calculate_mp_bar_percentage(const cv::Mat& img) {
-		int max_bar_size = 87;
+		const int max_bar_size = 87;
 
-		cv::Mat mask;
-		Scalar lower(240, 113, 117), upper(250, 125, 129);
-		cv::inRange(img, lower, upper, mask);
+		Mat mask;
+		const Scalar lower(240, 113, 117), upper(250, 125, 129);
+		inRange(img, lower, upper, mask);
 
-		int non_zero_count = cv::countNonZero(mask);
-		if (non_zero_count == 0)
+		if (countNonZero(mask) == 0)
 		{
+			mask.release();
 			return 0;
 		}
 
-		Rect bounding_box = cv::boundingRect(mask);
+		const Rect bounding_box = cv::boundingRect(mask);
+		const int mp_bar_width = bounding_box.width;
+		const int mp_percentage = static_cast<double>(mp_bar_width) / max_bar_size * 100.0;
 
-		int mp_bar_width = bounding_box.width;
-		int mp_percentage = static_cast<double>(mp_bar_width) / max_bar_size * 100.0;
+		mask.release();
+
 		return mp_percentage;
 	}
 
@@ -306,6 +333,7 @@ private:
 		{
 			Mat hp_bar = this->__scene(this->__get_hp_bar_ROI());
 			int hp_percentage = this->__calculate_hp_bar_percentage(hp_bar.clone());
+			hp_bar.release();
 
 			if (__prompt_hp_counter++ % __counter_avoid_spam_limit == 0)
 			{
@@ -324,9 +352,9 @@ private:
 		}
 		else
 		{
-			cv::Mat mp_bar = this->__scene(this->__get_mana_bar_ROI()).clone();
-
+			Mat mp_bar = this->__scene(this->__get_mana_bar_ROI()).clone();
 			int mp_percentage = this->__calculate_mp_bar_percentage(mp_bar);
+			mp_bar.release();
 
 			if (__prompt_mp_counter++ % __counter_avoid_spam_limit == 0)
 			{

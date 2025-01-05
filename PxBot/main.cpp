@@ -16,12 +16,12 @@ int main()
 {
 	cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
-	const bool IS_DEVELOPMENT_MODE = FALSE;
-	const bool TARGETING_ENABLED = FALSE;
-	const bool CAVEBOT_ENABLED = FALSE;
-	const bool HEALING_ENABLED = TRUE;
+	const bool IS_DEVELOPMENT_MODE = false;
+	const bool TARGETING_ENABLED = true;
+	const bool CAVEBOT_ENABLED = false;
+	const bool HEALING_ENABLED = true;
 
-	Profile profile = ProfileLoader::prompt_profile_name("bug-carlin");
+	Profile profile = ProfileLoader::prompt_profile_name("bonelord-paladin-lb");
 	
 	/* 
 	* Orchestrator behind the bot.
