@@ -139,8 +139,10 @@
     <ClCompile Include="Lib\Camera.cpp" />
     <ClCompile Include="Lib\Movement.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Lib\Player.cpp" />
     <ClCompile Include="Helpers\Toolbar.cpp" />
+    <ClCompile Include="Lib\Targeting.cpp" />
+    <ClCompile Include="Lib\Player.cpp" />
+    <ClCompile Include="Helpers\Observer.cpp" />
     <ClCompile Include="Types\Profile.cpp" />
     <ClCompile Include="Helpers\WaitDelay.cpp" />
   </ItemGroup>
@@ -150,8 +152,10 @@
     <ClInclude Include="Lib\Health.h" />
     <ClInclude Include="Lib\Camera.h" />
     <ClInclude Include="Lib\Movement.h" />
-    <ClInclude Include="Lib\Player.h" />
     <ClInclude Include="Helpers\Toolbar.h" />
+    <ClInclude Include="Lib\Targeting.h" />
+    <ClInclude Include="Lib\Player.h" />
+    <ClInclude Include="Helpers\Observer.h" />
     <ClInclude Include="Types\Profile.h" />
     <ClInclude Include="Helpers\WaitDelay.h" />
   </ItemGroup>

@@ -25,5 +25,34 @@ public:
 
         return j.get<Profile>();
     }
+
+    static Profile prompt_profile_name(string profile_name = "")
+    {
+		if (!profile_name.empty())
+		{
+			return ProfileLoader::load_profile(profile_name);
+		}
+
+		cout << "Enter profile name: ";
+		getline(cin, profile_name);
+
+		if (profile_name.empty())
+		{
+			cerr << "Profile name is empty." << endl;
+			return ProfileLoader::prompt_profile_name();
+		}
+		else
+		{
+			try
+			{
+				return ProfileLoader::load_profile(profile_name);
+			}
+			catch (string& error)
+			{
+				cout << error << endl;
+				return ProfileLoader::prompt_profile_name();
+			}
+		}
+    }
 };
 

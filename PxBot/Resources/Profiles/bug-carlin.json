@@ -16,8 +16,8 @@
         "mana": {
             "max_health": 80,
             "min_health": 0,
-            "min_mana": 20,
-            "max_mana": 90
+            "min_mana": 0,
+            "max_mana": 35
         }
     },
     "targets": [
