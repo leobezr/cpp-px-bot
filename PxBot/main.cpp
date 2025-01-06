@@ -21,7 +21,7 @@ int main()
 	const bool CAVEBOT_ENABLED = false;
 	const bool HEALING_ENABLED = true;
 
-	Profile profile = ProfileLoader::prompt_profile_name("bonelord-paladin-lb");
+	Profile profile = ProfileLoader::prompt_profile_name("bug-carlin");
 	
 	/* 
 	* Orchestrator behind the bot.
@@ -37,28 +37,6 @@ int main()
 		IS_DEVELOPMENT_MODE 
 	});
 
-	//Health::HealthConfig health_settings{ 80, 10, TRUE, TRUE };
-	//Cavebot::CavebotConfig cavebot_settings{ !IS_DEVELOPMENT_MODE, !IS_DEVELOPMENT_MODE };
-
-	//Camera camera;
-	//Health health(health_settings);
-	//Cavebot cavebot(cavebot_settings);
-
-	//cavebot.prompt_profile_name("bug-carlin");
-
-	//while (true)
-	//{,
-	//	cv::Mat scene = camera.capture_scene();
-	//	
-	//	//health.update_scene(scene);
-	//	cavebot.update_scene(scene);
-
-	//	if (GetAsyncKeyState(VK_PAUSE) & 0x8000)
-	//	{
-	//		cavebot.pause();
-	//		break;
-	//	}
-
 	//	if (IS_DEVELOPMENT_MODE)
 	//	{
 	//		cavebot.register_creature_being_followed();
@@ -71,14 +49,9 @@ int main()
 
 	//	if (GetAsyncKeyState(VK_DIVIDE) & 0x8000)
 	//	{
+	//		TODO: ADD THIS TO CAVEBOT
 	//		cavebot.jump_next_waypoint_category();
 	//	}
-
-	//	Sleep(45);
-	//}
-
-	//health.stop_threads();
-	//cavebot.stop_threads();
 
 	return 0;
 }

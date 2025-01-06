@@ -9,7 +9,6 @@
 #include <ctime>
 #include "./Camera.h"
 #include "../Types/Profile.h"
-#include "../Helpers/Observer.h"
 #include "./Movement.h"
 
 using namespace std;
@@ -24,7 +23,7 @@ constexpr int mp_bar_ROI_offset_x = 13;
 constexpr int mp_bar_width = 95;
 constexpr int mp_bar_height = 12;
 
-class Health : public Observer
+class Health
 {
 public:
 	struct HealthConfig
@@ -42,42 +41,34 @@ public:
 	}
 
 	/*
-	* Oserver pattern.
-	*/
-	void update(const cv::Mat scene) override
-	{
-		{
-			unique_lock<mutex> lock(mtx);
-			Rect screen_size = Camera::get_screen_size();
-			Rect tibia_container = Rect(0, 0, 176, screen_size.height);
-			Rect roi_area = Rect(screen_size.width - tibia_container.width, 0, tibia_container.width, tibia_container.height);
-			Mat cropped_scene = scene(roi_area);
-
-			__scene = cropped_scene.clone();
-			cropped_scene.release();
-			cvtColor(__scene, __scene, cv::COLOR_BGRA2BGR);
-
-			scene_ready = true;
-		}
-		scene_cv.notify_all();
-	}
-
-	/*
 	* Thread management
 	*/
 	void start_threads()
 	{
 		if (__enabled)
 		{
-			__update_health_thread = thread(&Health::__update_health_percentage, this);
-			__heal_thread = thread(&Health::__heal, this);
+			__health_thread = thread(&Health::__update_health_percentage, this);
 		}
 	}
 	void stop_threads()
 	{
 		this->__stop_threads = TRUE;
-		__update_health_thread.join();
-		__heal_thread.join();
+		__health_thread.join();
+	}
+	void self_update_scene()
+	{
+		Rect screen_size = Camera::get_screen_size();
+		Rect tibia_container = Rect(0, 0, 176, screen_size.height);
+		Rect roi_area = Rect(screen_size.width - tibia_container.width, 0, tibia_container.width, tibia_container.height);
+		
+		if (!__scene.empty())
+		{
+			__scene.release();
+		}
+		Mat scene = __camera.capture_scene();
+		cvtColor(scene(roi_area), __scene, cv::COLOR_BGRA2BGR);
+
+		scene.release();
 	}
 
 private:
@@ -95,11 +86,8 @@ private:
 	Movement __movement;
 
 	/* Thread management */
-	thread __update_health_thread, __heal_thread;
-	mutex mtx;
-	condition_variable scene_cv;
-	bool __stop_threads = false, 
-		scene_ready = false;
+	thread __health_thread;
+	bool __stop_threads = false;
 
 	/* Prompt management */
 	int __prompt_hp_counter = 0;
@@ -112,10 +100,14 @@ private:
 	*/
 	void __update_health_percentage()
 	{
+		if (__enabled)
+			cout << "<!-	Healing is: ENABLED		->" << endl;
+		else
+			cout << "<!-	Healing is: DISABLED	->" << endl;
+
 		while (!__stop_threads)
 		{
-			unique_lock<mutex> lock(mtx);
-			scene_cv.wait(lock, [this]() { return scene_ready || __stop_threads; });
+			self_update_scene();
 
 			if (__stop_threads) break;
 
@@ -123,8 +115,10 @@ private:
 			{
 				__current_hp = __get_hp_percent();
 				__current_mp = __get_mp_percent();
+
+				__heal();
 			}
-			scene_ready = false;
+
 		}
 	}
 
@@ -134,15 +128,6 @@ private:
 	*/
 	void __heal()
 	{
-		if (__enabled) 
-			cout << "<!-	Healing is: ENABLED		->" << endl;
-		else
-			cout << "<!-	Healing is: DISABLED	->" << endl;
-
-		/* HP and Mana values,
-		* Protected by mutex */
-		int current_hp, current_mp;
-
 		/* Healing Rules */
 		HealingRule low_hp_rule = __healing_profile.low_health;
 		HealingRule high_hp_rule = __healing_profile.high_health;
@@ -153,36 +138,29 @@ private:
 		int key_for_high_hp = VK_F2;
 		int key_for_mana = VK_F3;
 
-		while (!__stop_threads && __enabled)
+		/* 
+		* Checking health conditions 
+		*/
+		if (__current_hp >= low_hp_rule.min_health && __current_hp < low_hp_rule.max_health)
 		{
-			{
-				lock_guard<mutex> lock(mtx);
-				current_hp = __current_hp;
-				current_mp = __current_mp;
-			}
-
-			/*
-			 * Checking health conditions */
-			if (current_hp >= low_hp_rule.min_health && current_hp < low_hp_rule.max_health)
-			{
-				__movement.press(key_for_low_hp);
-			}
-			else if (current_hp >= high_hp_rule.min_health && current_hp < high_hp_rule.max_health)
-			{
-				__movement.press(key_for_high_hp);
-			}
-
-			/*
-			 * Checking mana conditions */
-			if (current_mp >= mana_rule.min_mana && current_mp < mana_rule.max_mana)
-			{
-				__movement.press(key_for_mana);
-			}
-
-			/* Thread management */
-			int exhaust_duration_avoid_puff = 180;
-			this_thread::sleep_for(chrono::milliseconds(exhaust_duration_avoid_puff));
+			__movement.press(key_for_low_hp);
 		}
+		else if (__current_hp >= high_hp_rule.min_health && __current_hp < high_hp_rule.max_health)
+		{
+			__movement.press(key_for_high_hp);
+		}
+
+		/* 
+		* Checking mana conditions 
+		*/
+		if (__current_mp >= mana_rule.min_mana && __current_mp < mana_rule.max_mana)
+		{
+			__movement.press(key_for_mana);
+		}
+
+		/* Sleep to avoid puff */
+		int exhaust_duration_avoid_puff = 180;
+		this_thread::sleep_for(chrono::milliseconds(exhaust_duration_avoid_puff));
 	}
 
 	/*
@@ -324,15 +302,15 @@ private:
 
 	int __get_hp_percent()
 	{
-		if (this->__scene.empty() && this->__get_hp_bar_ROI().area() == 0)
+		if (this->__scene.empty() && (this->__get_hp_bar_ROI().x <= 0 || this->__get_hp_bar_ROI().y <= 0))
 		{
 			cout << "<!--		Scene was empty, couldn't check health conditions		-->" << endl;
 			return 0;
 		}
 		else
 		{
-			Mat hp_bar = this->__scene(this->__get_hp_bar_ROI());
-			int hp_percentage = this->__calculate_hp_bar_percentage(hp_bar.clone());
+			Mat hp_bar = this->__scene(this->__get_hp_bar_ROI()).clone();
+			int hp_percentage = this->__calculate_hp_bar_percentage(hp_bar);
 			hp_bar.release();
 
 			if (__prompt_hp_counter++ % __counter_avoid_spam_limit == 0)
@@ -345,7 +323,7 @@ private:
 	}
 
 	int __get_mp_percent() {
-		if (this->__scene.empty() && this->__get_mana_bar_ROI().area() == 0)
+		if (this->__scene.empty() && (this->__get_mana_bar_ROI().x <= 0 || this->__get_mana_bar_ROI().y <= 0))
 		{
 			cout << "<!--		Scene was empty, couldn't check mana conditions		-->" << endl;
 			return 0;

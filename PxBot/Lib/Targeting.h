@@ -5,7 +5,6 @@
 #include <thread>
 #include <atomic>
 #include <mutex>
-#include "../Helpers/Observer.h"
 #include "./Camera.h"
 #include "../Types/Profile.h"
 #include "./Movement.h"
@@ -15,7 +14,7 @@ using namespace chrono;
 using namespace cv;
 using CreatureDirectory = unordered_map<string, Mat>;
 
-class Targeting : public Observer
+class Targeting
 {
 public:
 	struct TargetingConfig
@@ -47,14 +46,13 @@ public:
 		__targeting_thread.join();
 		__stop_threads = TRUE;
 	}
-	void update(Mat scene)
+	void self_update_scene()
 	{
+		if (!__scene.empty())
 		{
-			unique_lock<mutex> lock(mtx);
-			__scene = scene;
-			__scene_ready = true;
+			__scene.release();
 		}
-		__scene_cv.notify_all();
+		__scene = __camera.capture_scene();
 	}
 
 private:
@@ -75,8 +73,6 @@ private:
 
 	/* Thread management */
 	thread __targeting_thread;
-	mutex mtx;
-	condition_variable __scene_cv;
 	
 	bool __stop_threads = FALSE,
 		__scene_ready = FALSE;
@@ -95,15 +91,13 @@ private:
 
 		while (!__stop_threads && __enabled)
 		{
-			unique_lock<mutex> lock(mtx);
-			__scene_cv.wait(lock, [this]() { return __scene_ready || __stop_threads; });
+			self_update_scene();
 
 			if (__stop_threads) break;
 			
 			if (!__scene.empty() && !__get_is_attacking())
 			{
 				__target_elements();
-				__scene_ready = false;
 			}
 		}
 	}
@@ -116,7 +110,6 @@ private:
 	{
 		if (__get_has_targeting_profile())
 		{
-			Mat battle_window = __get_battle_window();
 			Rect creature_position = __get_creature_position_in_battle();
 
 			if (creature_position.x > 0 && creature_position.y > 0)
@@ -129,10 +122,7 @@ private:
 
 				__movement.click_mouse(click_position);
 				__movement.mouse_over(Rect(click_position.x - 300, click_position.y, 0, 0));
-				__scene_ready = FALSE;
 			}
-
-			battle_window.release();
 		}
 	}
 
@@ -213,7 +203,7 @@ private:
 
 			Point creature_position_point = __camera.find_needle(
 				haystack, needle,
-				threshold, breaks_if_not_found, true
+				threshold, breaks_if_not_found
 			);
 
 			creature_position = Rect(

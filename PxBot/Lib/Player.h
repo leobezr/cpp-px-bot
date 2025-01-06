@@ -26,28 +26,28 @@ public:
 		bool developer_mode_enabled;
 	};
 
-    Player(PlayerConfig player_setup) :__profile(player_setup.profile)
+	DeveloperTool* dev_tool;
+	Health health;
+	Targeting targeting;
+
+    Player(PlayerConfig player_setup) :__profile(player_setup.profile), health({player_setup.profile.healing, player_setup.healing_enabled}), targeting({player_setup.targeting_enabled, player_setup.profile.target})
     {
-        Health* health = new Health({ 
-			player_setup.profile.healing, 
-			player_setup.healing_enabled 
-		});
-        add_observer(health);
+        if (player_setup.developer_mode_enabled)
+        {
+            dev_tool = new DeveloperTool({
+                player_setup.developer_mode_enabled,
+                player_setup.profile.name
+            });
+            add_observer(dev_tool);
+        }
 
-		Targeting* targeting = new Targeting({
-			player_setup.targeting_enabled,
-			player_setup.profile.target
-		});
-		add_observer(targeting);
-
-		DeveloperTool* dev_tool = new DeveloperTool({
-			player_setup.developer_mode_enabled,
-			player_setup.profile.name
-		});
-		add_observer(dev_tool);
-
-		__start_bot_main_thread();
+        __start_bot_main_thread();
     }
+	
+	~Player()
+	{
+		delete dev_tool;
+	}
 
 	/*
 	* Handles the player's scene update.
@@ -103,9 +103,12 @@ private:
 		{
 			if (GetAsyncKeyState(VK_PAUSE) & 0x8000)
 			{
+				health.stop_threads();
+				targeting.stop_threads();
+
 				break;
 			}
-			update_scene();
+			//update_scene();
 		}
 	}
 };
