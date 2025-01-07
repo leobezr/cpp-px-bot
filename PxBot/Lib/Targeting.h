@@ -44,15 +44,44 @@ public:
 	void stop_threads()
 	{
 		__targeting_thread.join();
-		__stop_threads = TRUE;
+		__stop_threads = true;
 	}
 	void self_update_scene()
 	{
-		if (!__scene.empty())
-		{
-			__scene.release();
-		}
 		__scene = __camera.capture_scene();
+	}
+
+	/*
+	* Helper methods
+	*/
+	bool is_attacking(Mat scene)
+	{
+		if (scene.empty())
+			return false;
+
+		else if (__cached_battle_window_ROI.empty())
+			__cache_battle_window_ROI();
+
+		if (scene.cols < __cached_battle_window_ROI.width || scene.rows < __cached_battle_window_ROI.height)
+		{
+			cout << "<!--		Couldn't determine if is attacking, scene too small		->" << endl;
+			return false;
+		}
+
+		Mat mask, battle_window = scene(__cached_battle_window_ROI).clone();
+		int win_width = 4, win_height = __battle_window_size.height - 15;
+		Rect ROI_area = Rect(10, 15, win_width, win_height);
+
+		Scalar lower(0, 125, 114), upper(0, 201, 255);
+		cvtColor(battle_window, battle_window, cv::COLOR_BGR2HSV);
+		inRange(battle_window, lower, upper, mask);
+
+		bool is_attacking = countNonZero(mask(ROI_area)) != 0;
+
+		battle_window.release();
+		mask.release();
+
+		return is_attacking;
 	}
 
 private:
@@ -65,21 +94,18 @@ private:
 	Rect __cached_battle_window_ROI;
 	const Rect __battle_window_size = Rect(0, 0, 175, 170);
 	CreatureDirectory __hashed_creature_images;
-	bool __is_attacking = FALSE;
+	bool __is_attacking = false;
 
 	/* Profile */
 	vector<Target> __targets;
-	bool __enabled = FALSE;
+	bool __enabled = false;
 
 	/* Thread management */
 	thread __targeting_thread;
-	
-	bool __stop_threads = FALSE,
-		__scene_ready = FALSE;
+	bool __stop_threads = false;
 
 	/*
 	* Thread call to target the elements.
-	* Uses mutex lock receiving new scene.
 	*/
 
 	void __update_targeting()
@@ -131,6 +157,7 @@ private:
 		for (int i = 0; i < 3; i++)
 		{
 			__movement.press(VK_OEM_3);
+			Sleep(12);
 		}
 	}
 
@@ -143,10 +170,10 @@ private:
 		if (__targets.empty())
 		{
 			cout << "<!--	Profile doesn't contain targets -->." << endl;
-			return FALSE;
+			return false;
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	bool __get_is_attacking()
@@ -161,15 +188,15 @@ private:
 
 		bool is_attacking = countNonZero(mask(ROI_area)) != 0;
 
-		if (is_attacking && __is_attacking == FALSE)
+		if (is_attacking && __is_attacking == false)
 		{
-			__is_attacking = TRUE;
+			__is_attacking = true;
 			cout << "<!--	Attacking: TRUE	-->" << endl;
 			this->__press_auto_loot();
 		}
-		else if (!is_attacking && __is_attacking == TRUE)
+		else if (!is_attacking && __is_attacking == true)
 		{
-			__is_attacking = FALSE;
+			__is_attacking = false;
 			cout << "<!--	Attacking: FALSE	-->" << endl;
 			this->__press_auto_loot();
 		}
@@ -195,7 +222,7 @@ private:
 
 		for (auto& target : __targets)
 		{
-			bool breaks_if_not_found = FALSE;
+			bool breaks_if_not_found = false;
 			double threshold = 0.85;
 
 			Mat haystack = __get_battle_window();
@@ -232,7 +259,7 @@ private:
 		
 		cvtColor(imread("Resources/battle-list.png", IMREAD_UNCHANGED), needle, COLOR_BGRA2BGR);
 		
-		bool const breaks_if_not_found = TRUE;
+		bool const breaks_if_not_found = true;
 		double threshold = .49;
 
 		Point battle_window_coordinate = this->__camera.find_needle(

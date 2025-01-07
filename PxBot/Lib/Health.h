@@ -37,7 +37,7 @@ public:
 		__healing_profile = health_config.healing;
 		__enabled = health_config.enabled;
 
-		this->start_threads();
+		start_threads();
 	}
 
 	/*
@@ -61,14 +61,7 @@ public:
 		Rect tibia_container = Rect(0, 0, 176, screen_size.height);
 		Rect roi_area = Rect(screen_size.width - tibia_container.width, 0, tibia_container.width, tibia_container.height);
 		
-		if (!__scene.empty())
-		{
-			__scene.release();
-		}
-		Mat scene = __camera.capture_scene();
-		cvtColor(scene(roi_area), __scene, cv::COLOR_BGRA2BGR);
-
-		scene.release();
+		cvtColor(__camera.capture_scene(), __scene, cv::COLOR_BGRA2BGR);
 	}
 
 private:

@@ -132,6 +132,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Constants\Header.cpp" />
+    <ClCompile Include="Lib\Hunter.cpp" />
     <ClCompile Include="Lib\DeveloperTool.cpp" />
     <ClCompile Include="Helpers\ProfileLoader.cpp" />
     <ClCompile Include="Lib\Cavebot.cpp" />
@@ -148,6 +150,8 @@
     <ClCompile Include="Helpers\WaitDelay.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants\Header.h" />
+    <ClInclude Include="Lib\Hunter.h" />
     <ClInclude Include="Lib\DeveloperTool.h" />
     <ClInclude Include="Helpers\ProfileLoader.h" />
     <ClInclude Include="Lib\Cavebot.h" />
@@ -165,6 +169,7 @@
     <None Include=".gitignore" />
     <None Include="Resources\Profiles\bonelord-paladin-lb.json" />
     <None Include="Resources\Profiles\bug-carlin.json" />
+    <None Include="Resources\Profiles\wasp-thais.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

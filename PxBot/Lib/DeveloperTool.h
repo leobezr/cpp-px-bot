@@ -4,18 +4,24 @@
 #include "opencv2/imgproc.hpp"
 #include <condition_variable>
 #include <thread>
-#include <mutex>
-#include "../Helpers/Observer.h"
 #include "./Camera.h"
 #include "./Movement.h"
+#include "../Constants/Header.h"
 
 using namespace std;
 using namespace chrono;
 using namespace cv;
 
 const Rect battle_window_size = Rect(0, 0, 175, 170);
+const Rect map_area = Rect(20, 4, 107, 110);
 
-class DeveloperTool : public Observer
+const int map_width = 176, map_height = 116;
+const int map_btn_width = 59, map_btn_height = 70;
+const int offset_x = map_width - map_btn_width;
+const int offset_y = map_height - map_btn_height;
+const int map_thumb_size = 18 * 2;
+
+class DeveloperTool
 {
 public:
 	struct DeveloperToolConfig
@@ -33,22 +39,6 @@ public:
 	}
 
 	/*
-	* Observer pattern
-	*/
-	void update(const cv::Mat scene) override
-	{
-		if (__enabled)
-		{
-			{
-				unique_lock<mutex> lock(mtx);
-				__scene = scene.clone();
-				__scene_ready = true;
-			}
-			__scene_cv.notify_all();
-		}
-	}
-
-	/*
 	* Thread management
 	*/
 	void start_threads()
@@ -60,6 +50,10 @@ public:
 		__stop_threads = true;
 		__developer_thread.join();
 	}
+	void self_update_scene()
+	{
+		__scene = __camera.capture_scene();
+	}
 
 private:
 	/* Utils */
@@ -70,49 +64,66 @@ private:
 	bool __enabled;
 	string __profile_name;
 
-	/* Scene related and ROI's */
+	/* 
+	* Scene related and ROI's 
+	*/
 	Mat __scene;
+
+	/* Battle */
 	Rect __cached_battle_window_ROI;
 	const Rect __battle_window_size = Rect(0, 0, 175, 170);
+	/* Map */
+	Rect __cached_map_position_ROI;
 
 	/* Thread management */
 	thread __developer_thread;
-	mutex mtx;
-	condition_variable __scene_cv;
-	bool __stop_threads = false,
-		__scene_ready = false;
+	bool __stop_threads = false;
 
 	/* Waypoint Creator management */
-	string __waypoint_category = "hunt";
+	string __waypoint_category = "start";
 	int __waypoint_position = 0;
 
 	/*
 	* Thread call to watch for developer actions.
-	* Uses mutex lock when using scene.
 	*/
 	void __lookout_for_actions()
 	{
 		if (__enabled)
-			cout << "<!-	Developer mode: ENABLED		->" << endl;
+			cout << "Developer mode: ENABLED" << endl;
+		else
+			cout << "Developer mode: DISABLED" << endl;
 
-		while (!__stop_threads)
+		while (!__stop_threads && __enabled)
 		{
-			unique_lock<mutex> lock(mtx);
-			__scene_cv.wait(lock, [this]() { return __scene_ready || __stop_threads; });
+			self_update_scene();
 
 			if (__stop_threads) break;
 
 			if (!__scene.empty())
 			{
 				__register_creature_being_followed();
+
+				if (GetAsyncKeyState(VK_DIVIDE) & 0x8000)
+				{
+					__capture_map_screenshot();
+				}
 			}
-			__scene_ready = false;
 		}
 	}
 
 	/*
-	* Section register creatures to profile and take picture.
+	* Getters
 	*/
+
+	Mat __get_map()
+	{
+		if (__cached_map_position_ROI.empty())
+		{
+			__cache_map_ROI();
+		}
+		return __scene(__cached_map_position_ROI).clone();
+	}
+
 	void __register_creature_being_followed()
 	{
 		Mat scene, mask;
@@ -171,8 +182,9 @@ private:
 	}
 
 	/*
-	* Scene cutters and cache
+	* Actions with scene cutters and caching
 	*/
+
 	void __cache_battle_window_ROI()
 	{
 		Mat needle, scene = __scene.clone();
@@ -205,6 +217,76 @@ private:
 		}
 
 		__cached_battle_window_ROI = ROI_area;
+	}
+
+	void __capture_map_screenshot()
+	{
+		Mat map_scene = __get_map();
+		Mat map = map_scene(map_area);
+
+		Rect map_center = Rect(map.cols / 2, map.rows / 2, 0, 0);
+		int map_half_thumb_size = map_thumb_size / 2;
+
+		Rect map_cut = Rect(
+			map_center.x - map_half_thumb_size,
+			map_center.y - map_half_thumb_size,
+			map_thumb_size,
+			map_thumb_size
+		);
+
+		string profile_name = __profile_name;
+		string directory = "Resources/Waypoints/" + profile_name + "/";
+		string filename = __waypoint_category + "_" + to_string(__waypoint_position++);
+
+		__camera.save_image(map(map_cut), directory, filename);
+		__flicker_map(map_cut);
+	}
+
+	void __flicker_map(Rect map_center)
+	{
+		Rect map_position = this->__cached_map_position_ROI;
+		Rect mouse_over_position = Rect(map_position.x + map_center.x, map_position.y + map_center.y, 0, 0);
+
+		this->__movement.mouse_over(mouse_over_position);
+		this->__movement.scroll(-1, 2);
+		this->__movement.scroll(1, 2);
+
+		Rect out_of_the_way_position = Rect(500, 200, 0, 0);
+		this->__movement.mouse_over(out_of_the_way_position);
+	}
+
+	void __cache_map_ROI()
+	{
+		if (__cached_map_position_ROI.empty())
+		{
+			Mat needle = imread("Resources/map-buttons.png", IMREAD_UNCHANGED);
+
+			double threshold = .6;
+			bool breaks_if_not_found = true;
+
+			Point map_position = this->__camera.find_needle(
+				__scene, needle,
+				threshold, breaks_if_not_found
+			);
+
+			needle.release();
+
+			const int pos_x = map_position.x - 10,
+				pos_y = map_position.y;
+
+			Rect ROI_area = Rect(
+				pos_x - constants::MAP_OFFSET_X, pos_y - constants::MAP_OFFSET_Y,
+				constants::MAP_WIDTH, constants::MAP_HEIGHT
+			);
+
+			if (ROI_area.x <= 0 || ROI_area.y <= 0)
+			{
+				cout << "<!--		ERROR! Map not found		->" << endl;
+				return;
+			}
+
+			__cached_map_position_ROI = ROI_area;
+		}
 	}
 };
 
