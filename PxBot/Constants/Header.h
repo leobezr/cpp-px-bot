@@ -11,4 +11,6 @@ namespace constants
     constexpr int MAP_THUMB_SIZE = 18 * 2;
     constexpr int MAP_CLICK_NUDGE_X = 0;
     constexpr int MAP_CLICK_NUDGE_Y = 21;
+
+    constexpr int MAP_FIND_WAYPOINT_THRESHOLD = .76;
 }

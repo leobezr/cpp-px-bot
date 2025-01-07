@@ -16,10 +16,10 @@ int main()
 	cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
 	const bool IS_DEVELOPMENT_MODE = false;
-	const bool CAVEBOT_ENABLED = true;
-	const bool HEALING_ENABLED = true;
+	const bool CAVEBOT_ENABLED = !IS_DEVELOPMENT_MODE;
+	const bool HEALING_ENABLED = !IS_DEVELOPMENT_MODE;
 
-	Profile profile = ProfileLoader::prompt_profile_name("wasp-thais");
+	Profile profile = ProfileLoader::prompt_profile_name("swamp-troll-ph");
 	
 	/* 
 	* Orchestrator behind the bot.
@@ -33,12 +33,6 @@ int main()
 		HEALING_ENABLED, 
 		IS_DEVELOPMENT_MODE 
 	});
-
-	//	if (GetAsyncKeyState(VK_DIVIDE) & 0x8000)
-	//	{
-	//		TODO: ADD THIS TO CAVEBOT
-	//		cavebot.jump_next_waypoint_category();
-	//	}
 
 	return 0;
 }

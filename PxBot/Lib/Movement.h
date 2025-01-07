@@ -25,24 +25,28 @@ public:
 		switch (direction)
 		{
 			case Direction::north:
-			{
 				this->__key_press(0x57);
-			}
 
 			case Direction::south:
-			{
 				this->__key_press(0x53);
-			}
 
 			case Direction::west:
-			{
 				this->__key_press(0x41);
-			}
 
 			case Direction::east:
-			{
 				this->__key_press(0x44);
-			}
+
+			case Direction::north_west:
+				this->__key_press(0x51);
+
+			case Direction::south_west:
+				this->__key_press(0x5A);
+
+			case Direction::north_east:
+				this->__key_press(0x45);
+
+			case Direction::south_east:
+				this->__key_press(0x43);
 		}
 	}
 

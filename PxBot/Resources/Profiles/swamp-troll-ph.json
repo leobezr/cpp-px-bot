@@ -1,0 +1,97 @@
+{
+    "name": "swamp-troll-ph",
+    "healing": {
+        "low_health": {
+            "max_health": 80,
+            "min_health": 20,
+            "max_mana": 100,
+            "min_mana": 0
+        },
+        "high_health": {
+            "max_health": 19,
+            "min_health": 0,
+            "max_mana": 100,
+            "min_mana": 0
+        },
+        "mana": {
+            "max_health": 80,
+            "min_health": 0,
+            "min_mana": 0,
+            "max_mana": 35
+        }
+    },
+    "targets": [
+        {
+            "name": "swamp-troll",
+            "priority": 10
+        }
+    ],
+    "waypoint_category": {
+        "start": [
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "move:n",
+                "node_size": 1
+            },
+            {
+                "method": "move:ne",
+                "node_size": 1
+            },
+            {
+                "method": "move:nw",
+                "node_size": 1
+            },
+            {
+                "method": "move:sw",
+                "node_size": 1
+            },
+            {
+                "method": "move:se",
+                "node_size": 1
+            },
+            {
+                "method": "move:s",
+                "node_size": 1
+            },
+            {
+                "method": "move:e",
+                "node_size": 1
+            },
+            {
+                "method": "move:w",
+                "node_size": 1
+            }
+        ],
+        "hunt": [
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            }
+        ],
+        "refil": [
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            }
+        ]
+    }
+}

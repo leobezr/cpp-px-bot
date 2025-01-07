@@ -68,11 +68,15 @@ public:
         if (haystack.empty())
         {
             cout << "Haystack is empty." << endl;
+            imshow("Needle with no haystack", needle);
+            waitKey(0);
             return Point(-1, -1);
         }
         if (needle.empty())
         {
             cout << "Needle is empty." << endl;
+            imshow("Haystack with no needle", haystack);
+            waitKey(0);
             return Point(-1, -1);
         }
         if (haystack.type() != needle.type())

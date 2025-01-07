@@ -41,6 +41,18 @@ public:
 	{
 		__targeting_thread = thread(&Targeting::__update_targeting, this);
 	}
+	void restart_threads()
+	{
+		if (__targeting_thread.joinable())
+		{
+			stop_threads();
+			start_threads();
+		}
+		else
+		{
+			start_threads();
+		}
+	}
 	void stop_threads()
 	{
 		__targeting_thread.join();
@@ -111,7 +123,10 @@ private:
 	void __update_targeting()
 	{
 		if (__enabled)
+		{
+			__stop_threads = false;
 			__log_profile_targets();
+		}
 		else
 			cout << "Targeting is: DISABLED" << endl;
 
@@ -146,6 +161,8 @@ private:
 					0, 0
 				);
 
+				__movement.press(VK_ESCAPE);
+				this_thread::sleep_for(milliseconds(80));
 				__movement.click_mouse(click_position);
 				__movement.mouse_over(Rect(click_position.x - 300, click_position.y, 0, 0));
 			}
@@ -157,7 +174,7 @@ private:
 		for (int i = 0; i < 3; i++)
 		{
 			__movement.press(VK_OEM_3);
-			Sleep(12);
+			this_thread::sleep_for(milliseconds(10));
 		}
 	}
 

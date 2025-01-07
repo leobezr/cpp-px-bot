@@ -47,6 +47,19 @@ public:
 		__hunting_thread.join();
 		targeting.stop_threads();
 	}
+	void restart_threads()
+	{
+		if (__hunting_thread.joinable())
+		{
+			stop_threads();
+			start_threads();
+		}
+		else
+		{
+			start_threads();
+		}
+	}
+
 	void self_update_scene()
 	{
 		bool scene_initially_empty = __scene.empty();
@@ -70,6 +83,11 @@ public:
 		}
 
 		this_thread::sleep_for(chrono::milliseconds(80));
+	}
+
+	bool get_enabled() const
+	{
+		return __enabled;
 	}
 
 private:
@@ -100,7 +118,10 @@ private:
 	void __hunt()
 	{
 		if (__enabled)
+		{
+			__stop_threads = false;
 			cout << "Hunting: ENABLED" << endl;
+		}
 		else
 			cout << "Hunting: DISABLED" << endl;
 
@@ -129,11 +150,19 @@ private:
 
 	void __go_to_waypoint()
 	{
-		if (__get_has_reached_destination())
+		if (__get_waypoint_method() == "click")
 		{
-			__next_waypoint();
+			if (__get_has_reached_destination()) 
+				__next_waypoint();
+			else
+				__click_on_map();
 		}
-		__click_on_map();
+
+		else if (__get_waypoint_method().find("move") != string::npos)
+			__apply_wpt_method_move();
+
+		else
+			cout << "Couldn't identify waypoint methods" << endl;
 	}
 
 	/*
@@ -147,6 +176,12 @@ private:
 			__cache_map_ROI();
 		}
 		return __scene(__cached_map_position_ROI).clone();
+	}
+
+	string __get_waypoint_method() const
+	{
+		Waypoint current_waypoint = __get_waypoint_category()[__waypoint_position];
+		return current_waypoint.method;
 	}
 
 	bool __get_has_reached_destination()
@@ -163,7 +198,7 @@ private:
 		}
 
 		Mat haystack = __get_map().clone();
-		double threshold = 0.85;
+		double threshold = constants::MAP_FIND_WAYPOINT_THRESHOLD;
 		bool breaks_if_not_found = false;
 
 		const Point point = this->__camera.find_needle(
@@ -171,18 +206,45 @@ private:
 			threshold, breaks_if_not_found
 		);
 
-		haystack.release();
-		needle.release();
-
-		int expected_pos_x = 55, expected_pos_y = 41;
-		int tolerance = this->__get_waypoint_category()[this->__waypoint_position].node_size;
-
-		if ((point.x >= expected_pos_x - tolerance && point.x <= expected_pos_x + tolerance) &&
-			(point.y >= expected_pos_y - tolerance && point.y <= expected_pos_y + tolerance)) {
-			return true;
+		if (point.x <= 0 || point.y <= 0)
+		{
+			cout << "Didn't find waypoint when checking if reached destination" << endl;
+			return false;
 		}
 
-		return false;
+		if (constants::MAP_THUMB_SIZE > haystack.cols - point.x || constants::MAP_THUMB_SIZE > haystack.rows - point.y)
+		{
+			cout << "Checking destination reached, Haystack smaller than Point";
+			return false;
+		}
+		else
+		{
+			int node_diff_size_per_area = 1500;
+			int base_area_diff = 8200;
+			int wpt_tolerance = __get_waypoint_category()[__waypoint_position].node_size;
+			int min_tolerance = wpt_tolerance * node_diff_size_per_area + base_area_diff;
+			
+			Mat diff;
+			absdiff(
+				haystack(Rect(
+					point.x, point.y, 
+					constants::MAP_THUMB_SIZE, constants::MAP_THUMB_SIZE
+				)), needle, diff
+			);
+			
+			haystack.release();
+			needle.release();
+			
+			bool reached_destination = sum(diff)[0] <= min_tolerance;
+
+			if (!reached_destination)
+			{
+				cout << "Didn't reach destination, sum of diff: " << sum(diff)[0] << endl;
+				cout << "Min tolerance: " << min_tolerance << endl;
+			}
+
+			return sum(diff)[0] <= min_tolerance;
+		}
 	}
 
 	vector<Waypoint> __get_waypoint_category() const
@@ -225,7 +287,7 @@ private:
 		Mat needle = imread(profile_waypoint_folder_path + waypoint_file_name, IMREAD_UNCHANGED);
 		Mat haystack = __get_map();
 
-		double threshold = 0.85;
+		double threshold = constants::MAP_FIND_WAYPOINT_THRESHOLD;
 		bool breaks_if_not_found = false;
 
 		Point map_click_position = __camera.find_needle(
@@ -303,6 +365,31 @@ private:
 		cout << "== Waypoint: " << __waypoint_position << endl;
 	}
 
+	void __apply_wpt_method_move()
+	{
+		const string current_wpt = __get_waypoint_method();
+
+		if (current_wpt.find("ne") != string::npos)
+			__movement.move(Movement::north_east);
+		else if (current_wpt.find("nw") != string::npos)
+			__movement.move(Movement::north_west);
+		else if (current_wpt.find("se") != string::npos)
+			__movement.move(Movement::south_east);
+		else if (current_wpt.find("sw") != string::npos)
+			__movement.move(Movement::south_west);
+		else if (current_wpt.find("n") != string::npos)
+			__movement.move(Movement::north);
+		else if (current_wpt.find("s") != string::npos)
+			__movement.move(Movement::south);
+		else if (current_wpt.find("w") != string::npos)
+			__movement.move(Movement::west);
+		else if (current_wpt.find("e") != string::npos)
+			__movement.move(Movement::east);
+
+		this_thread::sleep_for(milliseconds(100));
+		__next_waypoint();
+	}
+
 	void __click_on_map()
 	{
 		Rect map_position = __get_waypoint_click_poisition();
@@ -330,7 +417,10 @@ private:
 				return;
 			}
 
-			this->__movement.click_mouse(click_position);
+			__movement.press(VK_ESCAPE);
+			this_thread::sleep_for(milliseconds(80));
+
+			__movement.click_mouse(click_position);
 			scene.release();
 		}
 	}

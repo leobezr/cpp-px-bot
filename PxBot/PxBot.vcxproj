@@ -44,6 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <EnableASAN>true</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -169,6 +170,7 @@
     <None Include=".gitignore" />
     <None Include="Resources\Profiles\bonelord-paladin-lb.json" />
     <None Include="Resources\Profiles\bug-carlin.json" />
+    <None Include="Resources\Profiles\swamp-troll-ph.json" />
     <None Include="Resources\Profiles\wasp-thais.json" />
   </ItemGroup>
   <ItemGroup>

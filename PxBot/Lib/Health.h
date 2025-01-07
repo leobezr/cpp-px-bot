@@ -63,6 +63,23 @@ public:
 		
 		cvtColor(__camera.capture_scene(), __scene, cv::COLOR_BGRA2BGR);
 	}
+	void restart_threads()
+	{
+		if (__health_thread.joinable())
+		{
+			stop_threads();
+			start_threads();
+		}
+		else 
+		{
+			start_threads();
+		}
+	}
+
+	bool get_enabled() const
+	{
+		return __enabled;
+	}
 
 private:
 	/* Profile */
@@ -94,7 +111,10 @@ private:
 	void __update_health_percentage()
 	{
 		if (__enabled)
+		{
+			__stop_threads = false;
 			cout << "<!-	Healing is: ENABLED		->" << endl;
+		}
 		else
 			cout << "<!-	Healing is: DISABLED	->" << endl;
 

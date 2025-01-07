@@ -32,6 +32,10 @@ public:
     }
 
 private:
+	const int __restart_thread_at = 200;
+	int __thread_count_at = 0;
+	int __restarted_count = 0;
+
 	void __start_all_threads()
 	{
 		while (true)
@@ -43,6 +47,27 @@ private:
 				dev_tool.stop_threads();
 
 				break;
+			}
+
+			//__count_thread_before_restart();
+
+			Sleep(40);
+		}
+	}
+
+	void __count_thread_before_restart()
+	{
+		if (health.get_enabled() && hunter.get_enabled())
+		{
+			if (__thread_count_at++ >= __restart_thread_at)
+			{
+				cout << "Threads restarted" << endl;
+
+				health.restart_threads();
+				hunter.restart_threads();
+				
+				__thread_count_at = 0;
+				__restarted_count++;
 			}
 		}
 	}

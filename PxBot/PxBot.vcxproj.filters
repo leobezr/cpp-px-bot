@@ -113,6 +113,7 @@
     <None Include=".gitignore" />
     <None Include="Resources\Profiles\bonelord-paladin-lb.json" />
     <None Include="Resources\Profiles\wasp-thais.json" />
+    <None Include="Resources\Profiles\swamp-troll-ph.json" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
