@@ -10,6 +10,8 @@
 #include "../Types/Profile.h"
 #include "./Targeting.h"
 #include "../Constants/Header.h"
+#include "../Constants/Hotkeys.h"
+#include "../Helpers/Helpers.h"
 
 using namespace std;
 using namespace chrono;
@@ -82,7 +84,7 @@ public:
 			}
 		}
 
-		this_thread::sleep_for(chrono::milliseconds(80));
+		this_thread::sleep_for(chrono::milliseconds(constants::TIMER_REFRESH_RATE_HUNTER));
 	}
 
 	bool get_enabled() const
@@ -150,16 +152,21 @@ private:
 
 	void __go_to_waypoint()
 	{
-		if (__get_waypoint_method() == "click")
+		string wpt_method = __get_waypoint_method();
+
+		if (wpt_method == "click")
 		{
-			if (__get_has_reached_destination()) 
+			if (__get_has_reached_destination())
 				__next_waypoint();
 			else
 				__click_on_map();
 		}
 
-		else if (__get_waypoint_method().find("move") != string::npos)
+		else if (wpt_method.find("move") != string::npos)
 			__apply_wpt_method_move();
+
+		else if (wpt_method.find("action") != string::npos)
+			__apply_wpt_action();
 
 		else
 			cout << "Couldn't identify waypoint methods" << endl;
@@ -198,12 +205,11 @@ private:
 		}
 
 		Mat haystack = __get_map().clone();
-		double threshold = constants::MAP_FIND_WAYPOINT_THRESHOLD;
 		bool breaks_if_not_found = false;
 
 		const Point point = this->__camera.find_needle(
 			haystack, needle, 
-			threshold, breaks_if_not_found
+			constants::MAP_FIND_WAYPOINT_THRESHOLD, breaks_if_not_found
 		);
 
 		if (point.x <= 0 || point.y <= 0)
@@ -211,39 +217,46 @@ private:
 			cout << "Didn't find waypoint when checking if reached destination" << endl;
 			return false;
 		}
-
-		if (constants::MAP_THUMB_SIZE > haystack.cols - point.x || constants::MAP_THUMB_SIZE > haystack.rows - point.y)
+		else if (constants::MAP_THUMB_SIZE > haystack.cols - point.x || constants::MAP_THUMB_SIZE > haystack.rows - point.y)
 		{
 			cout << "Checking destination reached, Haystack smaller than Point";
 			return false;
 		}
 		else
 		{
-			int node_diff_size_per_area = 1500;
-			int base_area_diff = 8200;
-			int wpt_tolerance = __get_waypoint_category()[__waypoint_position].node_size;
-			int min_tolerance = wpt_tolerance * node_diff_size_per_area + base_area_diff;
-			
+			cvtColor(haystack, haystack, COLOR_BGR2GRAY);
+			cvtColor(needle, needle, COLOR_BGR2GRAY);
+
+			GaussianBlur(haystack, haystack, Size(5, 5), 0);
+			GaussianBlur(needle, needle, Size(5, 5), 0);
+
 			Mat diff;
+
 			absdiff(
 				haystack(Rect(
 					point.x, point.y, 
 					constants::MAP_THUMB_SIZE, constants::MAP_THUMB_SIZE
 				)), needle, diff
 			);
+
+			Mat threshold_diff;
+			threshold(diff, threshold_diff, 25, 255, THRESH_BINARY);
+
+			int pixel_in_diff = countNonZero(threshold_diff);
+			double simularity = 1.0 - (double(pixel_in_diff) / (constants::MAP_THUMB_SIZE * constants::MAP_THUMB_SIZE));
 			
 			haystack.release();
 			needle.release();
+			threshold_diff.release();
 			
-			bool reached_destination = sum(diff)[0] <= min_tolerance;
+			int wpt_tolerance = __get_waypoint_category()[__waypoint_position].node_size;
+			double min_tolerance = abs(wpt_tolerance * constants::MAP_DESTINATION_CHECK_SIMULARITY_MODIFIER - 1);
+			bool reached_destination = simularity >= min_tolerance;
 
-			if (!reached_destination)
-			{
-				cout << "Didn't reach destination, sum of diff: " << sum(diff)[0] << endl;
-				cout << "Min tolerance: " << min_tolerance << endl;
-			}
+			cout << "Expected at least: " << min_tolerance << ", Got: " << simularity << endl;
+			cout << "Has reached: " << reached_destination << endl;
 
-			return sum(diff)[0] <= min_tolerance;
+			return reached_destination;
 		}
 	}
 
@@ -292,7 +305,8 @@ private:
 
 		Point map_click_position = __camera.find_needle(
 			haystack, needle, 
-			threshold, breaks_if_not_found
+			threshold, breaks_if_not_found,
+			true
 		);
 
 		if (map_click_position.x <= 0 || map_click_position.y <= 0)
@@ -309,7 +323,7 @@ private:
 		);
 	}
 
-	bool __get_is_walking()
+	bool __get_is_walking() const
 	{
 		double sum_of_all_px_different = __map_scene_diff;
 		double threshold = 20 * 1000;
@@ -365,9 +379,30 @@ private:
 		cout << "== Waypoint: " << __waypoint_position << endl;
 	}
 
+	void __apply_wpt_action()
+	{
+		string wpt_method = __get_waypoint_method();
+		vector<string> result = Helpers::split(wpt_method, ':');
+
+		string action_name = result[1];
+		string action_param = result[2];
+
+		if (action_name == "wait")
+		{
+			__handle_action_wait(action_param);
+		}
+		else
+		{
+			__handle_action_use_item_direction(action_name, action_param);
+			cout << "Couldn't identify waypoint action" << endl;
+		}
+	}
+
 	void __apply_wpt_method_move()
 	{
 		const string current_wpt = __get_waypoint_method();
+		const vector<string> result = Helpers::split(current_wpt, ':');
+		const Movement::Direction direction = static_cast<Movement::Direction>(result[1][0]);
 
 		if (current_wpt.find("ne") != string::npos)
 			__movement.move(Movement::north_east);
@@ -386,7 +421,7 @@ private:
 		else if (current_wpt.find("e") != string::npos)
 			__movement.move(Movement::east);
 
-		this_thread::sleep_for(milliseconds(100));
+		this_thread::sleep_for(milliseconds(constants::DELAY_WAIT_AFTER_ARROW_MOVE));
 		__next_waypoint();
 	}
 
@@ -423,6 +458,24 @@ private:
 			__movement.click_mouse(click_position);
 			scene.release();
 		}
+	}
+
+	void __handle_action_wait(string wait_param)
+	{
+		int wait_time = stoi(wait_param);
+		this_thread::sleep_for(milliseconds(wait_time));
+		__next_waypoint();
+	}
+
+	void __handle_action_use_item_direction(string item, string direction)
+	{
+		if (item == "rope")
+			__movement.use_item(hotkeys::USE_ROPE, direction);
+		else if (item == "shovel")
+			__movement.use_item(hotkeys::USE_SHOVEL, direction);
+
+		this_thread::sleep_for(milliseconds(constants::DELAY_WAIT_AFTER_ARROW_MOVE));
+		__next_waypoint();
 	}
 };
 

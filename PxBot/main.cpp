@@ -15,7 +15,7 @@ int main()
 {
 	cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
-	const bool IS_DEVELOPMENT_MODE = false;
+	const bool IS_DEVELOPMENT_MODE = true;
 	const bool CAVEBOT_ENABLED = !IS_DEVELOPMENT_MODE;
 	const bool HEALING_ENABLED = !IS_DEVELOPMENT_MODE;
 

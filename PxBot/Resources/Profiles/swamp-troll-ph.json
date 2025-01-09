@@ -22,76 +22,178 @@
     },
     "targets": [
         {
-            "name": "swamp-troll",
+            "name": "bonelord",
             "priority": 10
+        },
+        {
+            "name": "swamp-troll",
+            "priority": 9
+        },
+        {
+            "name": "bug",
+            "priority": 1
+        },
+        {
+            "name": "poison-spider",
+            "priority": 1
+        },
+        {
+            "name": "spider",
+            "priority": 1
+        },
+        {
+            "name": "skeleton",
+            "priority": 1
         }
     ],
     "waypoint_category": {
         "start": [
             {
                 "method": "click",
+                "node_size": 2
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
                 "node_size": 1
             },
             {
-                "method": "move:n",
+                "method": "action:move:n",
                 "node_size": 1
             },
             {
-                "method": "move:ne",
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
                 "node_size": 1
             },
             {
-                "method": "move:nw",
+                "method": "action:rope:c",
                 "node_size": 1
             },
             {
-                "method": "move:sw",
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
                 "node_size": 1
             },
             {
-                "method": "move:se",
+                "method": "action:rope:c",
                 "node_size": 1
             },
             {
-                "method": "move:s",
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
                 "node_size": 1
             },
             {
-                "method": "move:e",
+                "method": "action:move:n",
                 "node_size": 1
             },
             {
-                "method": "move:w",
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
                 "node_size": 1
+            },
+            {
+                "method": "action:move:s",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 1
+            },
+            {
+                "method": "action:rope:c",
+                "node_size": 1
+            },
+            {
+                "method": "click",
+                "node_size": 3
+            },
+            {
+                "method": "click",
+                "node_size": 3
             }
         ],
-        "hunt": [
-            {
-                "method": "click",
-                "node_size": 1
-            },
-            {
-                "method": "click",
-                "node_size": 1
-            },
-            {
-                "method": "click",
-                "node_size": 1
-            },
-            {
-                "method": "click",
-                "node_size": 1
-            }
-        ],
-        "refil": [
-            {
-                "method": "click",
-                "node_size": 1
-            },
-            {
-                "method": "click",
-                "node_size": 1
-            }
-        ]
+        "hunt": [],
+        "refil": []
     }
 }

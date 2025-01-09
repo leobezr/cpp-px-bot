@@ -1,21 +1,15 @@
-#include <windows.h>
-//#include <iomanip>
-//#include <cstdint>
-
-//uint16_t get_word_16_bit(const std::string& hexStr) {
-//    std::string hex = hexStr;
-//
-//    if (hex.substr(0, 2) == "0x" || hex.substr(0, 2) == "0X") {
-//        hex = hex.substr(2);
-//    }
-//
-//    uint16_t word;
-//    std::stringstream ss;
-//    ss << std::hex << hex;
-//    ss >> word;
-//
-//    return word;
-//}
-
-//const WORD HEAL = get_word_16_bit("F1");
-const WORD HOTKEY_HEAL = 0x70;
+#pragma once
+namespace hotkeys
+{
+	constexpr int MOVE_NORTH = 0x57;
+	constexpr int MOVE_SOUTH = 0x53;
+	constexpr int MOVE_WEST = 0x41;
+	constexpr int MOVE_EAST = 0x44;
+	constexpr int MOVE_NORTH_WEST = 0x51;
+	constexpr int MOVE_SOUTH_WEST = 0x5A;
+	constexpr int MOVE_NORTH_EAST = 0x45;
+	constexpr int MOVE_SOUTH_EAST = 0x43;
+	
+	constexpr int USE_ROPE = 0xBD;
+	constexpr int USE_SHOVEL = 0xBB;
+}

@@ -93,6 +93,13 @@ public:
 		battle_window.release();
 		mask.release();
 
+		if (is_attacking)
+		{
+			__press_auto_loot();
+			Sleep(constants::TIMER_REFRESH_RATE_HUNTER);
+		}
+
+
 		return is_attacking;
 	}
 
@@ -162,7 +169,11 @@ private:
 				);
 
 				__movement.press(VK_ESCAPE);
-				this_thread::sleep_for(milliseconds(80));
+				__movement.press(VK_ESCAPE);
+				__press_auto_loot();
+				this_thread::sleep_for(milliseconds(constants::TIMER_TARGETING_AFTER_PRESSING_ESC));
+
+				__press_auto_loot();
 				__movement.click_mouse(click_position);
 				__movement.mouse_over(Rect(click_position.x - 300, click_position.y, 0, 0));
 			}

@@ -19,7 +19,6 @@ const int map_width = 176, map_height = 116;
 const int map_btn_width = 59, map_btn_height = 70;
 const int offset_x = map_width - map_btn_width;
 const int offset_y = map_height - map_btn_height;
-const int map_thumb_size = 18 * 2;
 
 class DeveloperTool
 {
@@ -225,13 +224,13 @@ private:
 		Mat map = map_scene(map_area);
 
 		Rect map_center = Rect(map.cols / 2, map.rows / 2, 0, 0);
-		int map_half_thumb_size = map_thumb_size / 2;
+		int map_half_thumb_size = constants::MAP_THUMB_SIZE / 2;
 
 		Rect map_cut = Rect(
 			map_center.x - map_half_thumb_size,
 			map_center.y - map_half_thumb_size,
-			map_thumb_size,
-			map_thumb_size
+			constants::MAP_THUMB_SIZE,
+			constants::MAP_THUMB_SIZE
 		);
 
 		string profile_name = __profile_name;
@@ -248,8 +247,8 @@ private:
 		Rect mouse_over_position = Rect(map_position.x + map_center.x, map_position.y + map_center.y, 0, 0);
 
 		this->__movement.mouse_over(mouse_over_position);
-		this->__movement.scroll(-1, 2);
-		this->__movement.scroll(1, 2);
+		this->__movement.scroll(-1, 1);
+		this->__movement.scroll(1, 1);
 
 		Rect out_of_the_way_position = Rect(500, 200, 0, 0);
 		this->__movement.mouse_over(out_of_the_way_position);

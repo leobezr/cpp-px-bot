@@ -44,7 +44,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
-    <EnableASAN>true</EnableASAN>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -134,11 +134,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Constants\Header.cpp" />
+    <ClCompile Include="Constants\Hotkeys.cpp" />
+    <ClCompile Include="Helpers\Helpers.cpp" />
     <ClCompile Include="Lib\Hunter.cpp" />
     <ClCompile Include="Lib\DeveloperTool.cpp" />
     <ClCompile Include="Helpers\ProfileLoader.cpp" />
     <ClCompile Include="Lib\Cavebot.cpp" />
-    <ClCompile Include="Constants\Hotkeys.h" />
     <ClCompile Include="Lib\Health.cpp" />
     <ClCompile Include="Lib\Camera.cpp" />
     <ClCompile Include="Lib\Movement.cpp" />
@@ -152,6 +153,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Constants\Header.h" />
+    <ClInclude Include="Constants\Hotkeys.h" />
+    <ClInclude Include="Helpers\Helpers.h" />
     <ClInclude Include="Lib\Hunter.h" />
     <ClInclude Include="Lib\DeveloperTool.h" />
     <ClInclude Include="Helpers\ProfileLoader.h" />
