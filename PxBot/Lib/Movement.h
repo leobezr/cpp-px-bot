@@ -109,7 +109,8 @@ public:
 
 		SetCursorPos(position.x, position.y);
 		SendInput(2, inputs, sizeof(INPUT));
-		SetCursorPos(position.x - 50, position.y);
+		Sleep(50);
+		SetCursorPos(position.x - 200, position.y);
 
 		int delay_to_update_scene = 180;
 		Sleep(delay_to_update_scene);

@@ -7,6 +7,7 @@
 #include "./Camera.h"
 #include "./Movement.h"
 #include "../Constants/Header.h"
+#include "../Helpers/ProfileLoader.h"
 
 using namespace std;
 using namespace chrono;
@@ -26,13 +27,13 @@ public:
 	struct DeveloperToolConfig
 	{
 		bool developer_mode_enabled;
-		string profile_name;
+		Profile profile;
 	};
 
 	DeveloperTool(DeveloperToolConfig dev_config)
 	{
 		__enabled = dev_config.developer_mode_enabled;
-		__profile_name = dev_config.profile_name;
+		__profile = dev_config.profile;
 		
 		start_threads();
 	}
@@ -61,7 +62,7 @@ private:
 
 	/* Profile */
 	bool __enabled;
-	string __profile_name;
+	Profile __profile;
 
 	/* 
 	* Scene related and ROI's 
@@ -81,6 +82,8 @@ private:
 	/* Waypoint Creator management */
 	string __waypoint_category = "start";
 	int __waypoint_position = 0;
+	string __waypoint_action = "move";
+	int __node_size = 1;
 
 	/*
 	* Thread call to watch for developer actions.
@@ -102,10 +105,8 @@ private:
 			{
 				__register_creature_being_followed();
 
-				if (GetAsyncKeyState(VK_DIVIDE) & 0x8000)
-				{
 					__capture_map_screenshot();
-				}
+					__numpad_actions();
 			}
 		}
 	}
@@ -180,6 +181,40 @@ private:
 		return __scene(__cached_battle_window_ROI);
 	}
 
+	vector<Waypoint>& __get_waypoint_category()
+	{
+		if (__waypoint_category == "start")
+			return __profile.waypoint_category.start;
+		else if (__waypoint_category == "hunt")
+			return __profile.waypoint_category.hunt;
+		else if (__waypoint_category == "refil")
+			return __profile.waypoint_category.refil;
+		else
+			throw runtime_error("Invalid waypoint category.");
+	}
+
+	string __get_wpt_label()
+	{
+		return "wpt-" + to_string(__waypoint_position);
+	}
+
+	/*
+	* Profile manipulator methods
+	*/
+
+    void __add_waypoint_to_profile(Waypoint wpt)
+    {
+		vector<Waypoint>& waypoints = __get_waypoint_category();
+		waypoints.push_back(wpt);
+
+		ProfileLoader::save_profile(__profile.name, __profile);
+
+		cout << "Used action: " << __waypoint_action << endl;
+		__waypoint_position++;
+
+		Sleep(500);
+    }
+
 	/*
 	* Actions with scene cutters and caching
 	*/
@@ -218,27 +253,126 @@ private:
 		__cached_battle_window_ROI = ROI_area;
 	}
 
+	void __numpad_actions()
+	{
+		if (GetAsyncKeyState(VK_NUMPAD1) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":sw", 1, __get_wpt_label()}));
+		else if (GetAsyncKeyState(VK_NUMPAD2) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":s", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD3) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":se", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD4) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":w", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD5) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":c", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD6) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":e", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD7) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":nw", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD8) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":n", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD9) & 0x8000)
+			__add_waypoint_to_profile(Waypoint({ "action:" + __waypoint_action + ":ne", 1, __get_wpt_label() }));
+		else if (GetAsyncKeyState(VK_NUMPAD0) & 0x8000)
+			__change_action_item();
+		else if (GetAsyncKeyState(VK_DECIMAL) & 0x8000)
+			__change_category();
+		else if (GetAsyncKeyState(VK_ADD) & 0x8000)
+			__increase_node();
+		else if (GetAsyncKeyState(VK_PRIOR) & 0x8000)
+			__increase_waypoint_position();
+		else if (GetAsyncKeyState(VK_PRIOR) & 0x8000)
+			__decrease_waypoint_position();
+		else if (GetAsyncKeyState(VK_SUBTRACT) & 0x8000)
+			__decrease_node();
+	}
+
+	void __decrease_waypoint_position()
+	{
+		__waypoint_position++;
+		cout << "Waypoint position: " << __waypoint_position << endl;
+	}
+
+	void __increase_waypoint_position()
+	{
+		if (__waypoint_position > 0)
+		{
+			__waypoint_position--;
+			cout << "Waypoint position: " << __waypoint_position << endl;
+		}
+	}
+
+	void __increase_node()
+	{
+		if (__node_size < constants::WAYPOINT_NODE_MAX_VALUE)
+		{
+			__node_size++;
+			cout << "Node size: " << __node_size << endl;
+		}
+		else
+			cout << "Node at max size: " << __node_size << endl;
+	}
+
+	void __decrease_node()
+	{
+		if (__node_size > constants::WAYPOINT_NODE_MIN_VALUE)
+		{
+			__node_size--;
+			cout << "Node size: " << __node_size << endl;
+		}
+		else
+			cout << "Node at min size: " << __node_size << endl;
+	}
+
 	void __capture_map_screenshot()
 	{
-		Mat map_scene = __get_map();
-		Mat map = map_scene(map_area);
+		if (GetAsyncKeyState(VK_DIVIDE) & 0x8000)
+		{
+			Mat map_scene = __get_map();
+			Mat map = map_scene(map_area);
 
-		Rect map_center = Rect(map.cols / 2, map.rows / 2, 0, 0);
-		int map_half_thumb_size = constants::MAP_THUMB_SIZE / 2;
+			Rect map_center = Rect(map.cols / 2, map.rows / 2, 0, 0);
+			int map_half_thumb_size = constants::MAP_THUMB_SIZE / 2;
 
-		Rect map_cut = Rect(
-			map_center.x - map_half_thumb_size,
-			map_center.y - map_half_thumb_size,
-			constants::MAP_THUMB_SIZE,
-			constants::MAP_THUMB_SIZE
-		);
+			Rect map_cut = Rect(
+				map_center.x - map_half_thumb_size,
+				map_center.y - map_half_thumb_size,
+				constants::MAP_THUMB_SIZE,
+				constants::MAP_THUMB_SIZE
+			);
 
-		string profile_name = __profile_name;
-		string directory = "Resources/Waypoints/" + profile_name + "/";
-		string filename = __waypoint_category + "_" + to_string(__waypoint_position++);
+			string profile_name = __profile.name;
+			string directory = "Resources/Waypoints/" + profile_name + "/";
+			string filename = __waypoint_category + "_" + to_string(__waypoint_position);
 
-		__camera.save_image(map(map_cut), directory, filename);
-		__flicker_map(map_cut);
+			__camera.save_image(map(map_cut), directory, filename);
+			__flicker_map(map_cut);
+			__add_waypoint_to_profile(Waypoint({ "click", __node_size, __get_wpt_label() }));
+
+		}
+	}
+
+	void __change_category()
+	{
+		if (__waypoint_category == "start")
+			__waypoint_category = "hunt";
+		else if (__waypoint_category == "hunt")
+			__waypoint_category = "refil";
+		else if (__waypoint_category == "refil")
+			__waypoint_category = "start";
+		cout << "Category changed to: " << __waypoint_category << endl;
+	}
+
+	void __change_action_item()
+	{
+		if (__waypoint_action == "move")
+			__waypoint_action = "rope";
+		else if (__waypoint_action == "rope")
+			__waypoint_action = "shovel";
+		else if (__waypoint_action == "shovel")
+			__waypoint_action = "move";
+
+		cout << "Action item changed to: " << __waypoint_action << endl;
 	}
 
 	void __flicker_map(Rect map_center)

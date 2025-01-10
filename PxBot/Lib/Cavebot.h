@@ -11,7 +11,6 @@
 #include "./Movement.h"
 #include "../Types/Profile.h"
 #include "../Helpers/ProfileLoader.h"
-#include "../Helpers/WaitDelay.h"
 
 using namespace cv;
 using CreatureDirectory = unordered_map<string, Mat>;
@@ -205,7 +204,6 @@ private:
 	Movement __movement;
 	Profile __hunting_profile;
 	CreatureDirectory __cached_creature_images;
-	WaitDelay __wait_delay;
 	Mat __scene;
 	Mat __entire_scene;
 	Mat __previous_map_scene;

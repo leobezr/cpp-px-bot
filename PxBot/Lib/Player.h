@@ -26,7 +26,7 @@ public:
     Player(PlayerConfig setup) : 
 		health({ setup.profile.healing, setup.healing_enabled}),
 		hunter({ setup.cavebot_enabled, setup.profile }),
-		dev_tool({ setup.developer_mode_enabled, setup.profile.name })
+		dev_tool({ setup.developer_mode_enabled, setup.profile })
     {
         __start_all_threads();
     }

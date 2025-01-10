@@ -294,3 +294,301 @@ events:
       Microsoft (R) Incremental Linker Version 14.42.34435.0
       Copyright (C) Microsoft Corporation.  All rights reserved.
 ...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CheckCSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:97 (CHECK_C_SOURCE_COMPILES)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/absl/abslConfig.cmake:4 (find_dependency)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/protobuf/protobuf-config.cmake:7 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/protobuf/vcpkg-cmake-wrapper.cmake:3 (_find_package)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:813 (include)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv4/OpenCVModules.cmake:19 (find_dependency)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv4/OpenCVConfig.cmake:126 (include)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv/vcpkg-cmake-wrapper.cmake:3 (_find_package)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:813 (include)"
+      - "CMakeLists.txt:13 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-747oot"
+      binary: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-747oot"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      VCPKG_INSTALLED_DIR: "C:/Users/Leo/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/Users/Leo/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-747oot'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_58262.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Vers├úo do MSBuild 17.12.12+1cce77968 para .NET Framework
+        Compila├º├úo de 09/01/2025 20:04:42 iniciada.
+        
+        Projeto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\cmTC_58262.vcxproj" no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "cmTC_58262.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Criando o diret├│rio "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\Debug\\".
+          Criando o diret├│rio "cmTC_58262.dir\\Debug\\cmTC_58262.tlog\\".
+        InitializeBuildStatus:
+          Criando "cmTC_58262.dir\\Debug\\cmTC_58262.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_58262.dir\\Debug\\cmTC_58262.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_58262.dir\\Debug\\\\" /Fd"cmTC_58262.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\src.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.42.34435 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CMAKE_HAVE_LIBC_PTHREAD /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_58262.dir\\Debug\\\\" /Fd"cmTC_58262.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\src.c"
+          src.c
+        C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\src.c(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\cmTC_58262.vcxproj]
+        Projeto de compila├º├úo pronto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\cmTC_58262.vcxproj" (destinos padr├úo) -- FALHA.
+        
+        FALHA da compila├º├úo.
+        
+        "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\cmTC_58262.vcxproj" (destino padr├úo) (1) ->
+        (ClCompile destino) -> 
+          C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\src.c(1,10): error C1083: Cannot open include file: 'pthread.h': No such file or directory [C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-747oot\\cmTC_58262.vcxproj]
+        
+            0 Aviso(s)
+            1 Erro(s)
+        
+        Tempo Decorrido 00:00:00.43
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/absl/abslConfig.cmake:4 (find_dependency)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/protobuf/protobuf-config.cmake:7 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/protobuf/vcpkg-cmake-wrapper.cmake:3 (_find_package)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:813 (include)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv4/OpenCVModules.cmake:19 (find_dependency)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv4/OpenCVConfig.cmake:126 (include)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv/vcpkg-cmake-wrapper.cmake:3 (_find_package)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:813 (include)"
+      - "CMakeLists.txt:13 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-6e845h"
+      binary: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-6e845h"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      VCPKG_INSTALLED_DIR: "C:/Users/Leo/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/Users/Leo/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-6e845h'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_9a6a3.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Vers├úo do MSBuild 17.12.12+1cce77968 para .NET Framework
+        Compila├º├úo de 09/01/2025 20:04:42 iniciada.
+        
+        Projeto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\cmTC_9a6a3.vcxproj" no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "cmTC_9a6a3.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Criando o diret├│rio "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\Debug\\".
+          Criando o diret├│rio "cmTC_9a6a3.dir\\Debug\\cmTC_9a6a3.tlog\\".
+        InitializeBuildStatus:
+          Criando "cmTC_9a6a3.dir\\Debug\\cmTC_9a6a3.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_9a6a3.dir\\Debug\\cmTC_9a6a3.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_9a6a3.dir\\Debug\\\\" /Fd"cmTC_9a6a3.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\CheckFunctionExists.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.42.34435 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_9a6a3.dir\\Debug\\\\" /Fd"cmTC_9a6a3.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\CheckFunctionExists.c"
+          CheckFunctionExists.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\Debug\\cmTC_9a6a3.exe" /INCREMENTAL /ILK:"cmTC_9a6a3.dir\\Debug\\cmTC_9a6a3.ilk" /NOLOGO pthreads.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-6e845h/Debug/cmTC_9a6a3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-6e845h/Debug/cmTC_9a6a3.lib" /MACHINE:X64  /machine:x64 cmTC_9a6a3.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: cannot open file 'pthreads.lib' [C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\cmTC_9a6a3.vcxproj]
+        Projeto de compila├º├úo pronto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\cmTC_9a6a3.vcxproj" (destinos padr├úo) -- FALHA.
+        
+        FALHA da compila├º├úo.
+        
+        "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\cmTC_9a6a3.vcxproj" (destino padr├úo) (1) ->
+        (Link destino) -> 
+          LINK : fatal error LNK1104: cannot open file 'pthreads.lib' [C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-6e845h\\cmTC_9a6a3.vcxproj]
+        
+            0 Aviso(s)
+            1 Erro(s)
+        
+        Tempo Decorrido 00:00:00.46
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/absl/abslConfig.cmake:4 (find_dependency)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/protobuf/protobuf-config.cmake:7 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/protobuf/vcpkg-cmake-wrapper.cmake:3 (_find_package)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:813 (include)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv4/OpenCVModules.cmake:19 (find_dependency)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv4/OpenCVConfig.cmake:126 (include)"
+      - "C:/Users/Leo/vcpkg/installed/x64-windows/share/opencv/vcpkg-cmake-wrapper.cmake:3 (_find_package)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:813 (include)"
+      - "CMakeLists.txt:13 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-9npg6m"
+      binary: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-9npg6m"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      VCPKG_INSTALLED_DIR: "C:/Users/Leo/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/Users/Leo/vcpkg"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-9npg6m'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f3602.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Vers├úo do MSBuild 17.12.12+1cce77968 para .NET Framework
+        Compila├º├úo de 09/01/2025 20:04:43 iniciada.
+        
+        Projeto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\cmTC_f3602.vcxproj" no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "cmTC_f3602.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Criando o diret├│rio "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\Debug\\".
+          Criando o diret├│rio "cmTC_f3602.dir\\Debug\\cmTC_f3602.tlog\\".
+        InitializeBuildStatus:
+          Criando "cmTC_f3602.dir\\Debug\\cmTC_f3602.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_f3602.dir\\Debug\\cmTC_f3602.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f3602.dir\\Debug\\\\" /Fd"cmTC_f3602.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\CheckFunctionExists.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.42.34435 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D CHECK_FUNCTION_EXISTS=pthread_create /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_f3602.dir\\Debug\\\\" /Fd"cmTC_f3602.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TC /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\CheckFunctionExists.c"
+          CheckFunctionExists.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\Debug\\cmTC_f3602.exe" /INCREMENTAL /ILK:"cmTC_f3602.dir\\Debug\\cmTC_f3602.ilk" /NOLOGO pthread.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-9npg6m/Debug/cmTC_f3602.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-9npg6m/Debug/cmTC_f3602.lib" /MACHINE:X64  /machine:x64 cmTC_f3602.dir\\Debug\\CheckFunctionExists.obj
+        LINK : fatal error LNK1104: cannot open file 'pthread.lib' [C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\cmTC_f3602.vcxproj]
+        Projeto de compila├º├úo pronto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\cmTC_f3602.vcxproj" (destinos padr├úo) -- FALHA.
+        
+        FALHA da compila├º├úo.
+        
+        "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\cmTC_f3602.vcxproj" (destino padr├úo) (1) ->
+        (Link destino) -> 
+          LINK : fatal error LNK1104: cannot open file 'pthread.lib' [C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-9npg6m\\cmTC_f3602.vcxproj]
+        
+            0 Aviso(s)
+            1 Erro(s)
+        
+        Tempo Decorrido 00:00:00.46
+        
+      exitCode: 1
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6/FindWrapAtomic.cmake:36 (check_cxx_source_compiles)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Program Files/CMake/share/cmake-3.31/Modules/CMakeFindDependencyMacro.cmake:76 (find_package)"
+      - "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:36 (find_dependency)"
+      - "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake:35 (_qt_internal_find_third_party_dependencies)"
+      - "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:45 (include)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6/Qt6Config.cmake:181 (find_package)"
+      - "C:/Users/Leo/vcpkg/scripts/buildsystems/vcpkg.cmake:859 (_find_package)"
+      - "CMakeLists.txt:26 (find_package)"
+    checks:
+      - "Performing Test HAVE_STDATOMIC"
+    directories:
+      source: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-uoomiu"
+      binary: "C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-uoomiu"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /GR /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+      CMAKE_MODULE_PATH: "C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6;C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6/3rdparty/extra-cmake-modules/find-modules;C:/Qt/6.8.1/mingw_64/lib/cmake/Qt6/3rdparty/kwin"
+      VCPKG_INSTALLED_DIR: "C:/Users/Leo/vcpkg/installed"
+      VCPKG_PREFER_SYSTEM_LIBS: "OFF"
+      VCPKG_TARGET_TRIPLET: "x64-windows"
+      Z_VCPKG_ROOT_DIR: "C:/Users/Leo/vcpkg"
+    buildResult:
+      variable: "HAVE_STDATOMIC"
+      cached: true
+      stdout: |
+        Change Dir: 'C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-uoomiu'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_f4f0c.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Vers├úo do MSBuild 17.12.12+1cce77968 para .NET Framework
+        Compila├º├úo de 09/01/2025 20:06:36 iniciada.
+        
+        Projeto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uoomiu\\cmTC_f4f0c.vcxproj" no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "cmTC_f4f0c.dir\\Debug\\".
+          Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
+          Criando o diret├│rio "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uoomiu\\Debug\\".
+          Criando o diret├│rio "cmTC_f4f0c.dir\\Debug\\cmTC_f4f0c.tlog\\".
+        InitializeBuildStatus:
+          Criando "cmTC_f4f0c.dir\\Debug\\cmTC_f4f0c.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_f4f0c.dir\\Debug\\cmTC_f4f0c.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D HAVE_STDATOMIC /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /std:c++17 /Fo"cmTC_f4f0c.dir\\Debug\\\\" /Fd"cmTC_f4f0c.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uoomiu\\src.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.42.34435 for x64
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D HAVE_STDATOMIC /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /std:c++17 /Fo"cmTC_f4f0c.dir\\Debug\\\\" /Fd"cmTC_f4f0c.dir\\Debug\\vc143.pdb" /external:W1 /Gd /TP /errorReport:queue "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uoomiu\\src.cxx"
+          src.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.42.34433\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uoomiu\\Debug\\cmTC_f4f0c.exe" /INCREMENTAL /ILK:"cmTC_f4f0c.dir\\Debug\\cmTC_f4f0c.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-uoomiu/Debug/cmTC_f4f0c.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/Leo/source/repos/PxBot/PxBot/build/CMakeFiles/CMakeScratch/TryCompile-uoomiu/Debug/cmTC_f4f0c.lib" /MACHINE:X64  /machine:x64 cmTC_f4f0c.dir\\Debug\\src.obj
+          cmTC_f4f0c.vcxproj -> C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uoomiu\\Debug\\cmTC_f4f0c.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "cmTC_f4f0c.dir\\Debug\\cmTC_f4f0c.tlog\\unsuccessfulbuild".
+          Tocando "cmTC_f4f0c.dir\\Debug\\cmTC_f4f0c.tlog\\cmTC_f4f0c.lastbuildstate".
+        Projeto de compila├º├úo pronto "C:\\Users\\Leo\\source\\repos\\PxBot\\PxBot\\build\\CMakeFiles\\CMakeScratch\\TryCompile-uoomiu\\cmTC_f4f0c.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:00.75
+        
+      exitCode: 0
+...

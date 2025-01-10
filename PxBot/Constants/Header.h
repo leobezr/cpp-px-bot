@@ -20,11 +20,14 @@ namespace constants
 
     constexpr int MOVEMENT_SQM_SIZE = 70;
 
-    constexpr int INTERFACE_CORNER_SIZE = 363;
+    constexpr int INTERFACE_CORNER_SIZE = 313;
 	constexpr int INTERFACE_WINDOW_TOP_BAR = 19;
 	constexpr int INTERFACE_TILE_TO_CENTER_X = 8;
     constexpr int INTERFACE_TILE_TO_CENTER_Y = 6;
 
 	constexpr int TIMER_REFRESH_RATE_HUNTER = 50;
     constexpr int TIMER_TARGETING_AFTER_PRESSING_ESC = 120;
+
+    constexpr int WAYPOINT_NODE_MAX_VALUE = 5;
+    constexpr int WAYPOINT_NODE_MIN_VALUE = 1;
 }

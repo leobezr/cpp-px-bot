@@ -9,13 +9,14 @@
 #include "Lib/Player.h"
 #include "Helpers/ProfileLoader.h"
 
+
 using namespace std;
 
 int main()
 {
 	cv::utils::logging::setLogLevel(cv::utils::logging::LOG_LEVEL_WARNING);
 
-	const bool IS_DEVELOPMENT_MODE = true;
+	const bool IS_DEVELOPMENT_MODE = false;
 	const bool CAVEBOT_ENABLED = !IS_DEVELOPMENT_MODE;
 	const bool HEALING_ENABLED = !IS_DEVELOPMENT_MODE;
 

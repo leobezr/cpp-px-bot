@@ -30,7 +30,8 @@ struct Target
 struct Waypoint
 {
 	string method;
-	int node_size;
+	int node_size = 1;
+	string label;
 };
 
 struct WaypointCategory
@@ -73,6 +74,7 @@ inline void from_json(const nlohmann::json& j, Waypoint& waypoint)
 {
 	j.at("method").get_to(waypoint.method);
 	j.at("node_size").get_to(waypoint.node_size);
+	j.at("label").get_to(waypoint.label);
 }
 
 inline void from_json(const nlohmann::json& j, WaypointCategory& waypoint_category)
@@ -88,4 +90,59 @@ inline void from_json(const nlohmann::json& j, Profile& profile)
 	j.at("healing").get_to(profile.healing);
 	j.at("targets").get_to(profile.target);
 	j.at("waypoint_category").get_to(profile.waypoint_category);
+}
+
+inline void to_json(nlohmann::json& j, const HealingRule& healing_rule)
+{
+	j = nlohmann::json{
+		{"min_health", healing_rule.min_health},
+		{"max_health", healing_rule.max_health},
+		{"min_mana", healing_rule.min_mana},
+		{"max_mana", healing_rule.max_mana}
+	};
+}
+
+inline void to_json(nlohmann::json& j, const Healing& healing)
+{
+	j = nlohmann::json{
+		{"low_health", healing.low_health},
+		{"high_health", healing.high_health},
+		{"mana", healing.mana}
+	};
+}
+
+inline void to_json(nlohmann::json& j, const Target& target)
+{
+	j = nlohmann::json{
+		{"name", target.name},
+		{"priority", target.priority}
+	};
+}
+
+inline void to_json(nlohmann::json& j, const Waypoint& waypoint)
+{
+	j = nlohmann::json{
+		{"method", waypoint.method},
+		{"node_size", waypoint.node_size},
+		{"label", waypoint.label}
+	};
+}
+
+inline void to_json(nlohmann::json& j, const WaypointCategory& waypoint_category)
+{
+	j = nlohmann::json{
+		{"start", waypoint_category.start},
+		{"hunt", waypoint_category.hunt},
+		{"refil", waypoint_category.refil}
+	};
+}
+
+inline void to_json(nlohmann::json& j, const Profile& profile)
+{
+	j = nlohmann::json{
+		{"name", profile.name},
+		{"healing", profile.healing},
+		{"targets", profile.target},
+		{"waypoint_category", profile.waypoint_category}
+	};
 }

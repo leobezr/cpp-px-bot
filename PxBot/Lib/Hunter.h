@@ -402,23 +402,23 @@ private:
 	{
 		const string current_wpt = __get_waypoint_method();
 		const vector<string> result = Helpers::split(current_wpt, ':');
-		const Movement::Direction direction = static_cast<Movement::Direction>(result[1][0]);
+		const string direction = result[2];
 
-		if (current_wpt.find("ne") != string::npos)
+		if (direction.find("ne") != string::npos)
 			__movement.move(Movement::north_east);
-		else if (current_wpt.find("nw") != string::npos)
+		else if (direction.find("nw") != string::npos)
 			__movement.move(Movement::north_west);
-		else if (current_wpt.find("se") != string::npos)
+		else if (direction.find("se") != string::npos)
 			__movement.move(Movement::south_east);
-		else if (current_wpt.find("sw") != string::npos)
+		else if (direction.find("sw") != string::npos)
 			__movement.move(Movement::south_west);
-		else if (current_wpt.find("n") != string::npos)
+		else if (direction.find("n") != string::npos)
 			__movement.move(Movement::north);
-		else if (current_wpt.find("s") != string::npos)
+		else if (direction.find("s") != string::npos)
 			__movement.move(Movement::south);
-		else if (current_wpt.find("w") != string::npos)
+		else if (direction.find("w") != string::npos)
 			__movement.move(Movement::west);
-		else if (current_wpt.find("e") != string::npos)
+		else if (direction.find("e") != string::npos)
 			__movement.move(Movement::east);
 
 		this_thread::sleep_for(milliseconds(constants::DELAY_WAIT_AFTER_ARROW_MOVE));

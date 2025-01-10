@@ -1,25 +1,25 @@
 {
-    "name": "swamp-troll-ph",
     "healing": {
-        "low_health": {
-            "max_health": 80,
-            "min_health": 20,
-            "max_mana": 100,
-            "min_mana": 0
-        },
         "high_health": {
             "max_health": 19,
-            "min_health": 0,
             "max_mana": 100,
+            "min_health": 0,
+            "min_mana": 0
+        },
+        "low_health": {
+            "max_health": 80,
+            "max_mana": 100,
+            "min_health": 20,
             "min_mana": 0
         },
         "mana": {
             "max_health": 80,
+            "max_mana": 35,
             "min_health": 0,
-            "min_mana": 0,
-            "max_mana": 35
+            "min_mana": 0
         }
     },
+    "name": "swamp-troll-ph",
     "targets": [
         {
             "name": "bonelord",
@@ -47,153 +47,239 @@
         }
     ],
     "waypoint_category": {
+        "hunt": [],
+        "refil": [],
         "start": [
             {
                 "method": "click",
-                "node_size": 2
+                "node_size": 2,
+                "label":  "wpt-0"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-1"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-2"
             },
             {
                 "method": "click",
-                "node_size": 1
+                "node_size": 2,
+                "label": "wpt-3"
+            },
+            {
+                "method": "click",
+                "node_size": 1,
+                "label": "wpt-4"
             },
             {
                 "method": "action:move:n",
-                "node_size": 1
+                "node_size": 1,
+                "label": "wpt-5"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-6"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-7"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-8"
             },
             {
                 "method": "click",
-                "node_size": 1
+                "node_size": 2,
+                "label": "wpt-9"
+            },
+            {
+                "method": "click",
+                "node_size": 2,
+                "label": "wpt-10"
+            },
+            {
+                "method": "click",
+                "node_size": 1,
+                "label": "wpt-11"
             },
             {
                 "method": "action:rope:c",
-                "node_size": 1
+                "node_size": 1,
+                "label": "wpt-12"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-13"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-14"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-15"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-16"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-17"
             },
             {
                 "method": "click",
-                "node_size": 1
+                "node_size": 2,
+                "label": "wpt-18"
+            },
+            {
+                "method": "click",
+                "node_size": 2,
+                "label": "wpt-19"
+            },
+            {
+                "method": "click",
+                "node_size": 1,
+                "label": "wpt-20"
             },
             {
                 "method": "action:rope:c",
-                "node_size": 1
+                "node_size": 1,
+                "label": "wpt-21"
+            },
+            {
+                "method": "action:rope:c",
+                "node_size": 1,
+                "label": "wpt-22"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-23"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-24"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-25"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-26"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-27"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-28"
             },
             {
                 "method": "click",
-                "node_size": 1
-            },
-            {
-                "method": "action:move:n",
-                "node_size": 1
+                "node_size": 2,
+                "label": "wpt-29"
             },
             {
                 "method": "click",
-                "node_size": 3
-            },
-            {
-                "method": "click",
-                "node_size": 3
-            },
-            {
-                "method": "click",
-                "node_size": 3
-            },
-            {
-                "method": "click",
-                "node_size": 1
+                "node_size": 1,
+                "label": "wpt-30"
             },
             {
                 "method": "action:move:s",
-                "node_size": 1
+                "node_size": 1,
+                "label": "wpt-31"
+            },
+            {
+                "method": "action:move:s",
+                "node_size": 1,
+                "label": "wpt-32"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-33"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 2,
+                "label": "wpt-34"
             },
             {
                 "method": "click",
-                "node_size": 1
+                "node_size": 2,
+                "label": "wpt-35"
+            },
+            {
+                "method": "click",
+                "node_size": 1,
+                "label": "wpt-36"
+            },
+            {
+                "method": "action:move:s",
+                "node_size": 1,
+                "label": "wpt-37"
+            },
+            {
+                "method": "click",
+                "node_size": 2,
+                "label": "wpt-38"
+            },
+            {
+                "method": "click",
+                "node_size": 2,
+                "label": "wpt-39"
+            },
+            {
+                "method": "click",
+                "node_size": 1,
+                "label": "wpt-40"
             },
             {
                 "method": "action:rope:c",
-                "node_size": 1
+                "node_size": 1,
+                "label": "wpt-41"
+            },
+            {
+                "method": "action:rope:c",
+                "node_size": 1,
+                "label": "wpt-42"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 1,
+                "label": "wpt-43"
             },
             {
                 "method": "click",
-                "node_size": 3
+                "node_size": 1,
+                "label": "wpt-44"
+            },
+            {
+                "method": "click",
+                "node_size": 1,
+                "label": "wpt-45"
             }
-        ],
-        "hunt": [],
-        "refil": []
+        ]
     }
 }

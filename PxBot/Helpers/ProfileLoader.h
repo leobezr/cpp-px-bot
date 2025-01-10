@@ -54,5 +54,18 @@ public:
 			}
 		}
     }
+
+	static void save_profile(const string& profile_name, const Profile& profile)
+	{
+		ofstream file("Resources/Profiles/" + profile_name + ".json");
+
+		if (!file.is_open()) {
+			throw string("Could not open the file for saving.");
+		}
+
+		nlohmann::json j = profile;
+		file << j.dump(4);
+		file.close();
+	}
 };
 
